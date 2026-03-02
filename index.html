@@ -184,6 +184,54 @@
             color: #000;
             box-shadow: 0 0 15px #ffeb3b;
         }
+
+        /* ------------------------------ */
+        /* BLOOD SPLATTER FOOTER ADDED   */
+        /* ------------------------------ */
+
+        .blood-footer {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            background: #ffffff;
+            border-top: 3px solid #ff0000;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .knife {
+            width: 180px;
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            transform: rotate(-20deg);
+            filter: drop-shadow(0 0 10px #ff0000);
+        }
+
+        .splatter {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            background: #d40000;
+            border-radius: 50%;
+            box-shadow: 0 0 12px #ff0000;
+            opacity: 0.9;
+            animation: splatterFly 2.2s infinite ease-out;
+        }
+
+        .drop1 { left: 140px; top: 40px; animation-delay: 0s; }
+        .drop2 { left: 160px; top: 55px; animation-delay: 0.4s; }
+        .drop3 { left: 180px; top: 35px; animation-delay: 0.8s; }
+        .drop4 { left: 155px; top: 25px; animation-delay: 1.2s; }
+
+        @keyframes splatterFly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            40% { transform: translate(40px, -30px) scale(1.3); opacity: 1; }
+            100% { transform: translate(80px, 120px) scale(0.8); opacity: 0; }
+        }
+
     </style>
 </head>
 <body>
@@ -325,6 +373,16 @@
              alt="Manhattan Cafe Uma Musume GIF"
              style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
     </div>
+
+    <!-- BLOOD SPLATTER FOOTER -->
+    <footer class="blood-footer">
+        <img src="assets/knife.png" class="knife" alt="Knife">
+
+        <div class="splatter drop1"></div>
+        <div class="splatter drop2"></div>
+        <div class="splatter drop3"></div>
+        <div class="splatter drop4"></div>
+    </footer>
 
 </body>
 </html>
