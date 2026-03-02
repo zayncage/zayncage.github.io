@@ -1,49 +1,199 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Your Name - IT Professional</title>
-    <style>
-        body {
-            font-family: Arial;
-            background-color: #111;
-            color: #00ffcc;
-            text-align: center;
-            padding: 50px;
-        }
-        h1 {
-            font-size: 48px;
-        }
-        .box {
-            background: #222;
-            padding: 20px;
-            margin: 20px;
-            border-radius: 10px;
-        }
-    </style>
-</head>
-<body>
+/* GitHub-Style Neon Navigation Bar */
+    nav {
+        background: #0b0b0b;
+        padding: 15px 0;
+        border-bottom: 2px solid #00e6b8;
+        box-shadow: 0 0 15px #00e6b8;
+        position: sticky;
+        top: 0;
+        z-index: 10000;
+    }
 
-    <h1>Your Name</h1>
-    <h2>Future Network / Cyber Professional</h2>
+    nav a {
+        color: #66ffe0;
+        margin: 0 20px;
+        text-decoration: none;
+        font-size: 18px;
+        transition: 0.3s;
+    }
 
-    <div class="box">
-        <h3>Certifications</h3>
-        <p>CompTIA A+</p>
-        <p>Network+</p>
-        <p>Security+</p>
-    </div>
+    nav a:hover {
+        color: #d4af37;
+        text-shadow: 0 0 10px #d4af37;
+    }
 
-    <div class="box">
-        <h3>Projects</h3>
-        <p>Built pfSense Firewall Lab</p>
-        <p>Configured VLAN Network with Aruba Switch</p>
-        <p>Active Directory Domain Setup</p>
-    </div>
+    /* Header with Tachyon Silhouette */
+    .header {
+        padding: 60px 20px;
+        background: #111;
+        position: relative;
+        overflow: hidden;
+        border-bottom: 3px solid transparent;
+    }
 
-    <div class="box">
-        <h3>Contact</h3>
-        <p>Email: your@email.com</p>
-    </div>
+    /* Tachyon silhouette image */
+    .tachyon-silhouette {
+        position: absolute;
+        right: 5%;
+        bottom: 0;
+        width: 280px;
+        opacity: 0.18;
+        filter: drop-shadow(0 0 20px #7f4bff);
+        pointer-events: none;
+    }
 
-</body>
-</html>
+    .header::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(
+            90deg,
+            #00e6b8,
+            #7f4bff,
+            #d4af37,
+            #00e6b8
+        );
+        background-size: 300% 300%;
+        animation: tachyonHeader 5s linear infinite;
+    }
+
+    @keyframes tachyonHeader {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+        font-size: 48px;
+        margin-bottom: 5px;
+        z-index: 2;
+        position: relative;
+    }
+
+    h2 {
+        font-weight: 300;
+        color: #66ffe0;
+        z-index: 2;
+        position: relative;
+    }
+
+    .box {
+        background: #1a1a1a;
+        padding: 25px;
+        margin: 25px auto;
+        width: 60%;
+        border-radius: 12px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .box::before {
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(
+            120deg,
+            #00e6b8,
+            #7f4bff,
+            #d4af37,
+            #00e6b8
+        );
+        background-size: 300% 300%;
+        z-index: -1;
+        animation: tachyonGlow 6s ease infinite;
+        border-radius: 12px;
+    }
+
+    @keyframes tachyonGlow {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Calling Card */
+    .calling-card {
+        width: 80%;
+        margin: 40px auto;
+        padding: 20px;
+        background: #111;
+        border-radius: 14px;
+        position: relative;
+        overflow: hidden;
+        color: #00ffcc;
+        text-align: left;
+    }
+
+    .calling-card::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 14px;
+        background: linear-gradient(
+            135deg,
+            #00e6b8,
+            #7f4bff,
+            #d4af37,
+            #00e6b8
+        );
+        background-size: 400% 400%;
+        animation: tachyonFrankenPulse 5s ease-in-out infinite;
+        z-index: -1;
+    }
+
+    @keyframes tachyonFrankenPulse {
+        0% { background-position: 0% 50%; filter: brightness(1); }
+        50% { background-position: 100% 50%; filter: brightness(1.7); }
+        100% { background-position: 0% 50%; filter: brightness(1); }
+    }
+
+    .calling-card-content {
+        padding: 20px;
+        background: rgba(20, 20, 20, 0.85);
+        border-radius: 10px;
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+    }
+
+    /* Falling Carrots */
+    .carrot {
+        position: fixed;
+        top: -100px;
+        width: 40px;
+        height: 40px;
+        z-index: 9999;
+        animation: fall linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes fall {
+        0% { transform: translateY(-100px) rotate(0deg); }
+        100% { transform: translateY(120vh) rotate(360deg); }
+    }
+
+    /* Toggle Button */
+    #toggleCarrots {
+        background: #111;
+        color: #00ffcc;
+        border: 2px solid #00e6b8;
+        padding: 10px 20px;
+        font-size: 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.3s;
+    }
+
+    #toggleCarrots:hover {
+        background: #00e6b8;
+        color: #111;
+        box-shadow: 0 0 15px #00e6b8;
+    }
+</style>
