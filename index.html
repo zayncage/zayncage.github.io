@@ -5,27 +5,27 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #0d0d0d;
-            color: #00ffcc;
+            background-color: #000000;
+            color: #ffeb3b;
             text-align: center;
             padding: 0;
             margin: 0;
             overflow-x: hidden;
         }
 
-        /* GitHub-Style Neon Navigation Bar */
+        /* Neon Yellow GitHub-Style Navigation Bar */
         nav {
-            background: #0b0b0b;
+            background: #000;
             padding: 15px 0;
-            border-bottom: 2px solid #00e6b8;
-            box-shadow: 0 0 15px #00e6b8;
+            border-bottom: 2px solid #ffeb3b;
+            box-shadow: 0 0 15px #ffeb3b;
             position: sticky;
             top: 0;
             z-index: 10000;
         }
 
         nav a {
-            color: #66ffe0;
+            color: #ffeb3b;
             margin: 0 20px;
             text-decoration: none;
             font-size: 18px;
@@ -33,14 +33,14 @@
         }
 
         nav a:hover {
-            color: #d4af37;
-            text-shadow: 0 0 10px #d4af37;
+            color: #fff176;
+            text-shadow: 0 0 10px #fff176;
         }
 
         /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(12px) saturate(180%);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 3px solid transparent;
@@ -55,9 +55,9 @@
             left: -150%;
             width: 300%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.35), transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.25), transparent 70%);
             animation: liquidGlass 8s infinite linear;
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         @keyframes liquidGlass {
@@ -72,35 +72,36 @@
             right: 5%;
             bottom: 0;
             width: 280px;
-            opacity: 0.18;
-            filter: drop-shadow(0 0 20px #7f4bff);
+            opacity: 0.15;
+            filter: drop-shadow(0 0 20px #ffeb3b);
             pointer-events: none;
         }
 
         h1 {
             font-size: 48px;
             margin-bottom: 5px;
-            color: #111;
+            color: #000;
             position: relative;
             z-index: 2;
         }
 
         h2 {
             font-weight: 300;
-            color: #333;
+            color: #222;
             position: relative;
             z-index: 2;
         }
 
-        /* Tachyon Glow Boxes */
+        /* Yellow Glow Boxes */
         .box {
-            background: #1a1a1a;
+            background: #0a0a0a;
             padding: 25px;
             margin: 25px auto;
             width: 60%;
             border-radius: 12px;
             position: relative;
             overflow: hidden;
+            color: #ffeb3b;
         }
 
         .box::before {
@@ -110,14 +111,14 @@
             left: -2px;
             right: -2px;
             bottom: -2px;
-            background: linear-gradient(120deg,#00e6b8,#7f4bff,#d4af37,#00e6b8);
+            background: linear-gradient(120deg,#ffeb3b,#fff176,#ffeb3b);
             background-size: 300% 300%;
-            animation: tachyonGlow 6s ease infinite;
+            animation: yellowGlow 6s ease infinite;
             z-index: -1;
             border-radius: 12px;
         }
 
-        @keyframes tachyonGlow {
+        @keyframes yellowGlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -141,9 +142,9 @@
 
         /* Toggle Button */
         #toggleCarrots {
-            background: #111;
-            color: #00ffcc;
-            border: 2px solid #00e6b8;
+            background: #000;
+            color: #ffeb3b;
+            border: 2px solid #ffeb3b;
             padding: 10px 20px;
             font-size: 18px;
             border-radius: 8px;
@@ -153,9 +154,9 @@
         }
 
         #toggleCarrots:hover {
-            background: #00e6b8;
-            color: #111;
-            box-shadow: 0 0 15px #00e6b8;
+            background: #ffeb3b;
+            color: #000;
+            box-shadow: 0 0 15px #ffeb3b;
         }
     </style>
 </head>
@@ -242,14 +243,14 @@
 
     <div class="box" id="contact">
         <h3>Contact</h3>
-        <p>Email: <span style="color:#66ffe0;">zayncage@gmail.com</span></p>
+        <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
     <!-- Manhattan Café GIF -->
     <div style="margin: 40px auto;">
         <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif"
              alt="Manhattan Cafe Uma Musume GIF"
-             style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #7f4bff;">
+             style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
     </div>
 
 </body>
