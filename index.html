@@ -8,91 +8,17 @@
             background-color: #0d0d0d;
             color: #00ffcc;
             text-align: center;
-            padding: 0;
-            margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* GitHub-Style Neon Navigation Bar */
-        nav {
-            background: #0b0b0b;
-            padding: 15px 0;
-            border-bottom: 2px solid #00e6b8;
-            box-shadow: 0 0 15px #00e6b8;
-            position: sticky;
-            top: 0;
-            z-index: 10000;
-        }
-
-        nav a {
-            color: #66ffe0;
-            margin: 0 20px;
-            text-decoration: none;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        nav a:hover {
-            color: #d4af37;
-            text-shadow: 0 0 10px #d4af37;
-        }
-
-        /* Header with Tachyon Silhouette */
-        .header {
-            padding: 60px 20px;
-            background: #111;
-            position: relative;
-            overflow: hidden;
-            border-bottom: 3px solid transparent;
-        }
-
-        /* Tachyon silhouette image */
-        .tachyon-silhouette {
-            position: absolute;
-            right: 5%;
-            bottom: 0;
-            width: 280px;
-            opacity: 0.18;
-            filter: drop-shadow(0 0 20px #7f4bff);
-            pointer-events: none;
-        }
-
-        .header::before {
-            content: "";
-            position: absolute;
-            top: -3px;
-            left: 0;
-            width: 100%;
-            height: 6px;
-            background: linear-gradient(
-                90deg,
-                #00e6b8,
-                #7f4bff,
-                #d4af37,
-                #00e6b8
-            );
-            background-size: 300% 300%;
-            animation: tachyonHeader 5s linear infinite;
-        }
-
-        @keyframes tachyonHeader {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            padding: 50px;
         }
 
         h1 {
             font-size: 48px;
             margin-bottom: 5px;
-            z-index: 2;
-            position: relative;
         }
 
         h2 {
             font-weight: 300;
             color: #66ffe0;
-            z-index: 2;
-            position: relative;
         }
 
         .box {
@@ -105,6 +31,7 @@
             overflow: hidden;
         }
 
+        /* Agnes Tachyon–themed animated border */
         .box::before {
             content: "";
             position: absolute;
@@ -130,192 +57,30 @@
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-
-        /* Calling Card */
-        .calling-card {
-            width: 80%;
-            margin: 40px auto;
-            padding: 20px;
-            background: #111;
-            border-radius: 14px;
-            position: relative;
-            overflow: hidden;
-            color: #00ffcc;
-            text-align: left;
-        }
-
-        .calling-card::before {
-            content: "";
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 14px;
-            background: linear-gradient(
-                135deg,
-                #00e6b8,
-                #7f4bff,
-                #d4af37,
-                #00e6b8
-            );
-            background-size: 400% 400%;
-            animation: tachyonFrankenPulse 5s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes tachyonFrankenPulse {
-            0% { background-position: 0% 50%; filter: brightness(1); }
-            50% { background-position: 100% 50%; filter: brightness(1.7); }
-            100% { background-position: 0% 50%; filter: brightness(1); }
-        }
-
-        .calling-card-content {
-            padding: 20px;
-            background: rgba(20, 20, 20, 0.85);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
-        }
-
-        /* Falling Carrots */
-        .carrot {
-            position: fixed;
-            top: -100px;
-            width: 40px;
-            height: 40px;
-            z-index: 9999;
-            animation: fall linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); }
-            100% { transform: translateY(120vh) rotate(360deg); }
-        }
-
-        /* Toggle Button */
-        #toggleCarrots {
-            background: #111;
-            color: #00ffcc;
-            border: 2px solid #00e6b8;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
-        }
-
-        #toggleCarrots:hover {
-            background: #00e6b8;
-            color: #111;
-            box-shadow: 0 0 15px #00e6b8;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <nav>
-        <a href="#">Home</a>
-        <a href="#certs">Certifications</a>
-        <a href="#projects">Projects</a>
-        <a href="#contact">Contact</a>
-    </nav>
+    <h1>Zayn K. Cage</h1>
+    <h2>Network & Cybersecurity Professional</h2>
 
-    <!-- Falling Carrots Script -->
-    <script>
-        let carrotInterval;
-        let carrotsOn = true;
-
-        function spawnCarrot() {
-            const carrot = document.createElement("img");
-            carrot.src = "https://static.wikia.nocookie.net/umamusume/images/4/4d/Carrot.png";
-            carrot.classList.add("carrot");
-
-            carrot.style.left = Math.random() * 100 + "vw";
-            carrot.style.animationDuration = (3 + Math.random() * 5) + "s";
-
-            document.body.appendChild(carrot);
-
-            setTimeout(() => carrot.remove(), 9000);
-        }
-
-        function startCarrots() {
-            carrotInterval = setInterval(spawnCarrot, 600);
-        }
-
-        function stopCarrots() {
-            clearInterval(carrotInterval);
-        }
-
-        function toggleCarrots() {
-            if (carrotsOn) {
-                stopCarrots();
-                carrotsOn = false;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots ON";
-            } else {
-                startCarrots();
-                carrotsOn = true;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots OFF";
-            }
-        }
-
-        startCarrots();
-    </script>
-
-    <div class="header">
-        <h1>Zayn K. Cage</h1>
-        <h2>Network & Cybersecurity Professional</h2>
-
-        <!-- Tachyon Silhouette -->
-        <img class="tachyon-silhouette" 
-             src="https://static.wikia.nocookie.net/umamusume/images/4/4e/Agnes_Tachyon_Portrait.png"
-             alt="Agnes Tachyon Silhouette">
-    </div>
-
-    <button id="toggleCarrots" onclick="toggleCarrots()">Turn Carrots OFF</button>
-
-    <div class="box" id="certs">
+    <div class="box">
         <h3>Certifications</h3>
         <p>CompTIA A+</p>
         <p>CompTIA Network+</p>
         <p>CompTIA Security+</p>
-        <p>HTML5 & Semantic Markup</p>
-        <p>CSS3 Styling & Responsive Design</p>
     </div>
 
-    <div class="box" id="projects">
+    <div class="box">
         <h3>Technical Projects</h3>
         <p>Designed and deployed a pfSense firewall lab environment</p>
         <p>Configured multi‑VLAN network infrastructure using Aruba switching</p>
         <p>Implemented Active Directory domain services and group policy structure</p>
     </div>
 
-    <div class="box" id="contact">
+    <div class="box">
         <h3>Contact</h3>
         <p>Email: <span style="color:#66ffe0;">zayncage@gmail.com</span></p>
-    </div>
-
-    <div class="calling-card">
-        <div class="calling-card-content">
-            <h2 style="color:#66ffe0; margin-top:0;">Agnes Tachyon – Manhattan Café Experiment</h2>
-            <p style="color:#d4af37;">
-                “Project Tachyon: Subject exhibits extreme curiosity, unstable brilliance, and unpredictable energy output.”
-            </p>
-            <p>
-                Inspired by Call of Duty calling cards, this design represents Tachyon’s mad‑scientist persona—electric pulses, unstable lab energy, and experimental breakthroughs that defy logic.
-            </p>
-            <p style="color:#7f4bff;">
-                Status: <strong>Frankenstein Protocol Active</strong>
-            </p>
-        </div>
-    </div>
-
-    <div style="margin: 40px auto;">
-        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif"
-             alt="Manhattan Cafe Uma Musume GIF"
-             style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #7f4bff;">
     </div>
 
 </body>
