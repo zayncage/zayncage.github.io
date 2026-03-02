@@ -48,7 +48,6 @@
             overflow: hidden;
         }
 
-        /* Liquid Glass Animated Shine */
         .header::after {
             content: "";
             position: absolute;
@@ -124,46 +123,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Calling Card */
-        .calling-card {
-            width: 80%;
-            margin: 40px auto;
-            padding: 20px;
-            background: #111;
-            border-radius: 14px;
-            position: relative;
-            overflow: hidden;
-            color: #00ffcc;
-            text-align: left;
-        }
-
-        .calling-card::before {
-            content: "";
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 14px;
-            background: linear-gradient(135deg,#00e6b8,#7f4bff,#d4af37,#00e6b8);
-            background-size: 400% 400%;
-            animation: tachyonFrankenPulse 5s ease-in-out infinite;
-            z-index: -1;
-        }
-
-        @keyframes tachyonFrankenPulse {
-            0% { background-position: 0% 50%; filter: brightness(1); }
-            50% { background-position: 100% 50%; filter: brightness(1.7); }
-            100% { background-position: 0% 50%; filter: brightness(1); }
-        }
-
-        .calling-card-content {
-            padding: 20px;
-            background: rgba(20,20,20,0.85);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,255,200,0.2);
-        }
-
         /* Falling Carrots */
         .carrot {
             position: fixed;
@@ -218,7 +177,6 @@
         function spawnCarrot() {
             const carrot = document.createElement("img");
 
-            // Use your uploaded rainbow crystal carrot
             carrot.src = "assets/crystal-carrot.png";
 
             carrot.classList.add("carrot");
@@ -287,21 +245,7 @@
         <p>Email: <span style="color:#66ffe0;">zayncage@gmail.com</span></p>
     </div>
 
-    <div class="calling-card">
-        <div class="calling-card-content">
-            <h2 style="color:#66ffe0; margin-top:0;">Agnes Tachyon – Manhattan Café Experiment</h2>
-            <p style="color:#d4af37;">
-                “Project Tachyon: Subject exhibits extreme curiosity, unstable brilliance, and unpredictable energy output.”
-            </p>
-            <p>
-                Inspired by Call of Duty calling cards, this design represents Tachyon’s mad‑scientist persona—electric pulses, unstable lab energy, and experimental breakthroughs that defy logic.
-            </p>
-            <p style="color:#7f4bff;">
-                Status: <strong>Frankenstein Protocol Active</strong>
-            </p>
-        </div>
-    </div>
-
+    <!-- Manhattan Café GIF -->
     <div style="margin: 40px auto;">
         <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif"
              alt="Manhattan Cafe Uma Musume GIF"
