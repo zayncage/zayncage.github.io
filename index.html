@@ -40,7 +40,6 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Glitchy Shooting Star */
         .shooting-star {
             position: fixed;
             width: 2px;
@@ -55,7 +54,7 @@
             position: fixed;
             color: #ff0000;
             font-size: 8px;
-            font-family: 'Courier New', Courier, monospace;
+            font-family: 'Courier New', monospace;
             pointer-events: none;
             z-index: 1;
             opacity: 0.8;
@@ -85,6 +84,7 @@
             to { transform: translateY(110vh); }
         }
 
+        /* --- CELESTIAL ELEMENTS --- */
         .sun {
             position: fixed;
             top: 20px;
@@ -115,16 +115,24 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: transform 0.1s linear; /* Smooth descent */
         }
 
         .moon {
             width: 90px;
             height: 90px;
-            background-color: #f5f5f5;
+            background-color: #f5f5f5; /* Initial color */
             border-radius: 50%;
             position: relative;
             overflow: hidden;
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.2), 0 0 20px rgba(200, 220, 255, 0.4);
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* Blood Moon Class */
+        .moon.blood {
+            background-color: #ff0000;
+            box-shadow: inset -10px -10px 20px #4a0000, 0 0 40px #ff0000;
         }
 
         #moon-shadow {
@@ -219,8 +227,8 @@
     <div id="starfield"></div>
     <div class="sun" id="setting-sun"></div>
 
-    <div class="moon-container">
-        <div class="moon"><div id="moon-shadow"></div></div>
+    <div class="moon-container" id="moon-container">
+        <div class="moon" id="moon-body"><div id="moon-shadow"></div></div>
     </div>
 
     <nav>
@@ -262,10 +270,12 @@
     <script>
         const body = document.body;
         const sun = document.getElementById('setting-sun');
+        const moonContainer = document.getElementById('moon-container');
+        const moonBody = document.getElementById('moon-body');
         const shadow = document.getElementById('moon-shadow');
         const starLayer = document.getElementById('starfield');
 
-        // Create Background Stars
+        // Create Stars
         function initStars() {
             for (let i = 0; i < 150; i++) {
                 const s = document.createElement('div');
@@ -280,7 +290,7 @@
         }
         initStars();
 
-        // Glitchy Shooting Star Logic
+        // Shooting Stars
         function shootStar() {
             const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
             if (sunOpacity < 0.3) {
@@ -288,48 +298,51 @@
                 sStar.className = 'shooting-star';
                 let x = Math.random() * window.innerWidth;
                 let y = Math.random() * (window.innerHeight / 2);
-                sStar.style.left = x + 'px';
-                sStar.style.top = y + 'px';
                 document.body.appendChild(sStar);
-
                 let steps = 0;
-                const maxSteps = 40;
                 const interval = setInterval(() => {
                     x -= 10; y += 8;
-                    sStar.style.left = x + 'px';
-                    sStar.style.top = y + 'px';
-                    
-                    // Create trail bit
+                    sStar.style.left = x + 'px'; sStar.style.top = y + 'px';
                     const trail = document.createElement('div');
                     trail.className = 'glitch-trail';
                     trail.innerText = Math.random() > 0.5 ? '1' : '0';
-                    trail.style.left = x + 'px';
-                    trail.style.top = y + 'px';
+                    trail.style.left = x + 'px'; trail.style.top = y + 'px';
                     document.body.appendChild(trail);
                     setTimeout(() => trail.remove(), 600);
-
-                    steps++;
-                    if (steps > maxSteps) {
-                        clearInterval(interval);
-                        sStar.remove();
-                    }
+                    if (steps++ > 40) { clearInterval(interval); sStar.remove(); }
                 }, 20);
             }
             setTimeout(shootStar, Math.random() * 6000 + 2000);
         }
         shootStar();
 
-        // Scroll Logic
+        // Scroll Logic: Moon Descent and Blood Transformation
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            // 1. Shadow movement (Moon Phases)
             shadow.style.left = `${scrollPercent * 100}%`;
+
+            // 2. Sun Descent and Fade
             sun.style.transform = `translateY(${scrollPercent * 500}px)`;
-            const sunOp = Math.max(1 - (scrollPercent * 1.5), 0);
-            sun.style.opacity = sunOp;
+            sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
+
+            // 3. Moon Descent (Moving to bottom)
+            const moonDescent = scrollPercent * (window.innerHeight - 150);
+            moonContainer.style.transform = `translateY(${moonDescent}px)`;
+
+            // 4. Blood Moon Transformation (Color shift)
+            if (scrollPercent > 0.7) {
+                moonBody.classList.add('blood');
+            } else {
+                moonBody.classList.remove('blood');
+            }
+
+            // 5. Starfield Opacity
             starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
         });
 
-        // Snow/Pulse
+        // Snow and Red Pulse
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
