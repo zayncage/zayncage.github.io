@@ -5,7 +5,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Winter Night Gradient - Fixed background */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -17,7 +16,7 @@
             scroll-behavior: smooth;
         }
 
-        /* Background GIF Container - Opacity increased, and Blur Added */
+        /* Background GIF Container with slow sway to simulate 0.5 speed feel */
         .bg-gif-container {
             position: fixed;
             top: 0;
@@ -26,16 +25,21 @@
             height: 100%;
             z-index: -1;
             opacity: 0.8; 
-            filter: blur(5px); /* Adjusted Blur Effect */
+            filter: blur(5px);
             pointer-events: none;
+            /* Slowing down the visual energy of the background */
+            animation: slowSway 10s ease-in-out infinite;
         }
 
-        /* Red Pulse Class triggered by snow hitting the bottom */
+        @keyframes slowSway {
+            0%, 100% { transform: scale(1.0); }
+            50% { transform: scale(1.05); }
+        }
+
         body.pulse-red {
             background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
         }
 
-        /* Snow Animation Styling */
         .snowflake {
             position: fixed;
             top: -20px;
@@ -50,7 +54,6 @@
             to { transform: translateY(110vh); }
         }
 
-        /* --- SETTING SUN (Left Side) --- */
         .sun {
             position: fixed;
             top: 20px;
@@ -71,7 +74,6 @@
             50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
         }
 
-        /* --- PHASE SHIFTING MOON (Right Side) --- */
         .moon-container {
             position: fixed;
             top: 20px;
@@ -121,7 +123,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Navigation Bar */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
@@ -146,7 +147,6 @@
             text-shadow: 0 0 10px #fff176;
         }
 
-        /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
@@ -164,7 +164,6 @@
             z-index: 3;
         }
 
-        /* Frosted Ice Boxes - Increased background opacity for text legibility */
         .box {
             background: rgba(255, 255, 255, 0.15); 
             backdrop-filter: blur(15px);
@@ -194,7 +193,6 @@
             60% { transform: translate(2px, -2px); }
         }
 
-        /* Blood Splatter Footer */
         .blood-footer {
             position: relative;
             width: 100%;
