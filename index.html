@@ -17,11 +17,13 @@
             scroll-behavior: smooth;
         }
 
-        /* --- ARCADE INTRO OVERLAY --- */
-        #arcade-intro {
+        /* --- ARCADE OPENING ANIMATION OVERLAY --- */
+        #arcade-login {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             background: black;
             z-index: 20000;
             display: flex;
@@ -31,43 +33,48 @@
             transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        .insert-coin {
-            font-family: 'Press+Start+2P', cursive;
-            color: #ffeb3b;
-            font-size: 24px;
-            cursor: pointer;
-            animation: blink 0.8s infinite;
-            text-shadow: 4px 4px #d40000;
-        }
-
         .arcade-title {
-            font-family: 'Press+Start+2P', cursive;
+            font-family: 'Press Start 2P', cursive;
             color: white;
-            font-size: 18px;
-            margin-bottom: 50px;
+            font-size: 20px;
+            margin-bottom: 60px;
+            text-shadow: 3px 3px #d40000;
         }
 
-        @keyframes blink {
+        .insert-coin {
+            font-family: 'Press Start 2P', cursive;
+            color: #ffeb3b;
+            font-size: 18px;
+            cursor: pointer;
+            animation: arcadeBlink 0.8s infinite;
+            border: 4px double #ffeb3b;
+            padding: 20px;
+        }
+
+        @keyframes arcadeBlink {
             0%, 49% { opacity: 1; }
             50%, 100% { opacity: 0; }
         }
 
+        /* Styling for the Name inside the Header */
         .header h1 {
-            font-family: 'Press+Start+2P', cursive; /* Applied to your name */
-            font-size: 32px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 28px;
             margin-bottom: 5px;
             color: #ffeb3b;
             text-shadow: 4px 4px #d40000;
             z-index: 3;
-            animation: slideIn 1s ease-out;
+            opacity: 0; /* Hidden until unlocked */
+            transform: scale(3);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes slideIn {
-            from { transform: scale(3); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+        .unlocked .header h1 {
+            opacity: 1;
+            transform: scale(1);
         }
 
-        /* Background GIF Container */
+        /* --- EXISTING STYLES --- */
         .bg-gif-container {
             position: fixed;
             top: 0; left: 0;
@@ -98,8 +105,7 @@
 
         .sun {
             position: fixed;
-            top: 20px;
-            left: 20px;
+            top: 20px; left: 20px;
             width: 120px; height: 120px;
             background: radial-gradient(circle, #fff176 20%, #ffeb3b 60%, #fbc02d 80%);
             border-radius: 50%;
@@ -107,12 +113,6 @@
             animation: sunPulse 4s ease-in-out infinite;
             z-index: 9998;
             pointer-events: none;
-            transition: transform 0.1s linear, opacity 0.1s linear;
-        }
-
-        @keyframes sunPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffeb3b; }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
         }
 
         .moon-container {
@@ -120,7 +120,6 @@
             top: 20px; right: 20px;
             width: 120px; height: 120px;
             z-index: 9998;
-            pointer-events: none;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -155,50 +154,15 @@
             z-index: 10000;
         }
 
-        nav a {
-            color: #ffeb3b;
-            margin: 0 20px;
-            text-decoration: none;
-            font-size: 18px;
-            transition: 0.3s;
-        }
+        nav a { color: #ffeb3b; margin: 0 20px; text-decoration: none; font-size: 18px; }
 
-        .box {
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px);
-            padding: 25px;
-            margin: 35px auto;
-            width: 65%;
-            border-radius: 12px;
-            position: relative;
-            color: #ffeb3b;
-            z-index: 5;
-            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        .header { padding: 60px 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255, 255, 255, 0.2); }
 
-        .blood-footer {
-            position: relative;
-            width: 100%;
-            height: 160px;
-            background: #ffffff;
-            border-top: 3px solid #ff0000;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10;
-            margin-top: 50px;
-        }
+        .box { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); padding: 25px; margin: 35px auto; width: 65%; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2); color: #ffeb3b; }
 
-        .splatter {
-            position: absolute;
-            width: 18px; height: 18px;
-            background: #d40000;
-            border-radius: 50%;
-            animation: splatterFly 2.2s infinite ease-out;
-        }
+        .blood-footer { position: relative; width: 100%; height: 160px; background: #ffffff; border-top: 3px solid #ff0000; overflow: hidden; margin-top: 50px; }
 
+        .splatter { position: absolute; width: 18px; height: 18px; background: #d40000; border-radius: 50%; animation: splatterFly 2.2s infinite ease-out; }
         .drop1 { left: 15%; top: 40px; animation-delay: 0s; }
         .drop2 { left: 45%; top: 55px; animation-delay: 0.4s; }
         .drop3 { left: 75%; top: 35px; animation-delay: 0.8s; }
@@ -208,35 +172,22 @@
             100% { transform: translate(50px, 100px); opacity: 0; }
         }
 
-        #gif-control-btn {
-            position: fixed;
-            bottom: 20px; right: 20px;
-            z-index: 10001;
-            padding: 10px 20px;
-            background: #ffeb3b;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        .gifs-paused { opacity: 0 !important; visibility: hidden; }
+        #gif-control-btn { position: fixed; bottom: 20px; right: 20px; z-index: 10001; padding: 10px 20px; background: #ffeb3b; font-weight: bold; border: none; border-radius: 5px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-    <div id="arcade-intro">
-        <div class="arcade-title">ZAYN K. CAGE PORTFOLIO</div>
-        <div class="insert-coin" onclick="startGame()">[ INSERT COIN ]</div>
+    <div id="arcade-login">
+        <div class="arcade-title">ZAYN K. CAGE : ARCADE EDITION</div>
+        <div class="insert-coin" onclick="unlockSite()">INSERT COIN</div>
     </div>
 
     <button id="gif-control-btn" onclick="toggleGifs()">Pause GIFs</button>
 
     <div class="bg-gif-container gif-target">
         <div class="tenor-gif-embed" data-postid="5271339300012166028" data-share-method="host" data-aspect-ratio="1.76596" data-width="100%">
-            <a href="https://tenor.com/view/agnes-tachyon-tachyon-agnestachyon-anime-running-gif-5271339300012166028">Agnes Tachyon Agnestachyon GIF</a>
-        </div> 
+            <a href="https://tenor.com/view/agnes-tachyon-tachyon-agnestachyon-anime-running-gif-5271339300012166028">Agnes Tachyon</a>
+        </div>
         <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     </div>
 
@@ -256,7 +207,7 @@
 
     <div class="header">
         <h1>Zayn K. Cage</h1>
-        <h2 style="font-family: 'Press+Start+2P'; font-size: 14px;">LEVEL 1: CYBERSECURITY SPECIALIST</h2>
+        <h2>Network & Cybersecurity Professional</h2>
     </div>
 
     <div class="box" id="certs">
@@ -266,25 +217,17 @@
 
     <div class="box" id="passed-exams">
         <h3>Passed Exams</h3>
-        <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
+        <p>Microsoft Office Specialist 2019</p>
     </div>
 
     <div class="box" id="projects">
         <h3>Technical Projects</h3>
-        <p>pfSense Firewall Lab Environment</p>
-        <p>Active Directory Implementation</p>
+        <p>pfSense Firewall Lab | Multi-VLAN Aruba Design</p>
     </div>
 
     <div class="box" id="contact">
         <h3>Contact</h3>
         <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
-    </div>
-
-    <div class="gif-target" style="margin: 40px auto; width: 300px; position: relative; z-index: 5; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px #ffeb3b; transition: opacity 0.5s ease;">
-        <div class="tenor-gif-embed" data-postid="12475232483217937905" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-            <a href="https://tenor.com/view/manhattan-cafe-uma-musume-uma-musume-pretty-derby-beginning-of-a-new-era-gif-12475232483217937905">Manhattan Cafe Uma Musume GIF</a>
-        </div> 
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     </div>
 
     <footer class="blood-footer">
@@ -295,39 +238,33 @@
 
     <script>
         const body = document.body;
-        const sun = document.getElementById('setting-sun');
         const shadow = document.getElementById('moon-shadow');
-        let isPaused = false;
+        const sun = document.getElementById('setting-sun');
 
-        function startGame() {
-            document.getElementById('arcade-intro').style.transform = 'translateY(-100%)';
+        // Unlock Animation Function
+        function unlockSite() {
+            document.getElementById('arcade-login').style.transform = 'translateY(-100%)';
+            document.body.classList.add('unlocked');
         }
 
         function toggleGifs() {
             const targets = document.querySelectorAll('.gif-target');
-            const btn = document.getElementById('gif-control-btn');
-            isPaused = !isPaused;
-            targets.forEach(el => {
-                if (isPaused) el.classList.add('gifs-paused');
-                else el.classList.remove('gifs-paused');
-            });
-            btn.innerText = isPaused ? "Play GIFs" : "Pause GIFs";
+            const isPaused = targets[0].classList.toggle('gifs-paused');
+            document.getElementById('gif-control-btn').innerText = isPaused ? "Play GIFs" : "Pause GIFs";
         }
 
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
             shadow.style.left = `${scrollPercent * 100}%`;
-            const sunDescent = scrollPercent * 400; 
-            const sunOpacity = 1 - (scrollPercent * 1.5);
-            sun.style.transform = `translateY(${sunDescent}px)`;
-            sun.style.opacity = Math.max(sunOpacity, 0);
+            sun.style.transform = `translateY(${scrollPercent * 400}px)`;
+            sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
         });
 
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
             snowflake.innerText = "❄";
-            const duration = Math.random() * 3 + 4; 
+            const duration = Math.random() * 3 + 4;
             snowflake.style.left = Math.random() * 100 + "vw";
             snowflake.style.animationDuration = duration + "s";
             body.appendChild(snowflake);
