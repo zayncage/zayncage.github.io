@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,12 +6,38 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000000;
+            /* Updated to a dark winter sky gradient */
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             color: #ffeb3b;
             text-align: center;
             padding: 0;
             margin: 0;
             overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Snow Animation Styles */
+        .snow-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .snowflake {
+            position: absolute;
+            color: white;
+            top: -20px;
+            z-index: -1;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(110vh); }
         }
 
         /* Animated Sun */
@@ -39,9 +66,10 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* GitHub-Style Neon Navigation Bar */
+        /* Navigation Bar */
         nav {
-            background: #000;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
             box-shadow: 0 0 15px #ffeb3b;
@@ -58,188 +86,70 @@
             transition: 0.3s;
         }
 
-        nav a:hover {
-            color: #fff176;
-            text-shadow: 0 0 10px #fff176;
-        }
+        nav a:hover { color: #fff176; text-shadow: 0 0 10px #fff176; }
 
         /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
             border-bottom: 3px solid transparent;
             position: relative;
             overflow: hidden;
         }
 
-        .header::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 300%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%);
-            animation: liquidGlass 8s infinite linear;
-            opacity: 0.5;
-        }
-
-        @keyframes liquidGlass {
-            0% { transform: translateX(0) translateY(0); }
-            50% { transform: translateX(20%) translateY(-10%); }
-            100% { transform: translateX(0) translateY(0); }
-        }
-
-        /* Tachyon Silhouette */
         .tachyon-silhouette {
             position: absolute;
             right: 5%;
             bottom: 0;
             width: 280px;
-            opacity: 0.15;
+            opacity: 0.3;
             filter: drop-shadow(0 0 20px #ffeb3b);
             pointer-events: none;
         }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 5px;
-            color: #000;
-            position: relative;
-            z-index: 2;
-        }
-
-        h2 {
-            font-weight: 300;
-            color: #222;
-            position: relative;
-            z-index: 2;
-        }
+        h1 { font-size: 48px; margin-bottom: 5px; color: #fff; z-index: 2; position: relative; }
+        h2 { font-weight: 300; color: #ddd; z-index: 2; position: relative; }
 
         /* Yellow Glow Boxes */
         .box {
-            background: #0a0a0a;
+            background: rgba(10, 10, 10, 0.8);
             padding: 25px;
             margin: 25px auto;
             width: 60%;
             border-radius: 12px;
-            position: relative;
-            overflow: hidden;
             color: #ffeb3b;
-        }
-
-        .box::before {
-            content: "";
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(120deg,#ffeb3b,#fff176,#ffeb3b);
-            background-size: 300% 300%;
-            animation: yellowGlow 6s ease infinite;
-            z-index: -1;
-            border-radius: 12px;
-        }
-
-        @keyframes yellowGlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            border: 1px solid #ffeb3b;
         }
 
         /* Falling Carrots */
-        .carrot {
-            position: fixed;
-            top: -100px;
-            width: 40px;
-            height: 40px;
-            z-index: 9999;
-            animation: fall linear infinite;
-            pointer-events: none;
-        }
+        .carrot { position: fixed; top: -100px; width: 40px; height: 40px; z-index: 9999; pointer-events: none; }
 
-        @keyframes fall {
-            0% { transform: translateY(-100px) rotate(0deg); }
-            100% { transform: translateY(120vh) rotate(360deg); }
-        }
-
-        /* Toggle Button */
         #toggleCarrots {
-            background: #000;
-            color: #ffeb3b;
-            border: 2px solid #ffeb3b;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
+            background: #000; color: #ffeb3b; border: 2px solid #ffeb3b;
+            padding: 10px 20px; font-size: 18px; border-radius: 8px; cursor: pointer;
         }
 
-        #toggleCarrots:hover {
-            background: #ffeb3b;
-            color: #000;
-            box-shadow: 0 0 15px #ffeb3b;
-        }
-
-        /* ------------------------------ */
-        /* BLOOD SPLATTER FOOTER ADDED   */
-        /* ------------------------------ */
-
+        /* Footer */
         .blood-footer {
             position: relative;
             width: 100%;
             height: 160px;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
             border-top: 3px solid #ff0000;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        .knife {
-            width: 180px;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            transform: rotate(-20deg);
-            filter: drop-shadow(0 0 10px #ff0000);
-        }
-
-        .splatter {
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #d40000;
-            border-radius: 50%;
-            box-shadow: 0 0 12px #ff0000;
-            opacity: 0.9;
-            animation: splatterFly 2.2s infinite ease-out;
-        }
-
-        .drop1 { left: 140px; top: 40px; animation-delay: 0s; }
-        .drop2 { left: 160px; top: 55px; animation-delay: 0.4s; }
-        .drop3 { left: 180px; top: 35px; animation-delay: 0.8s; }
-        .drop4 { left: 155px; top: 25px; animation-delay: 1.2s; }
-
-        @keyframes splatterFly {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            40% { transform: translate(40px, -30px) scale(1.3); opacity: 1; }
-            100% { transform: translate(80px, 120px) scale(0.8); opacity: 0; }
-        }
-
     </style>
 </head>
 <body>
 
-    <!-- Animated Sun -->
+    <div class="snow-container" id="snow"></div>
+
     <div class="sun"></div>
 
-    <!-- Navigation Bar -->
     <nav>
         <a href="#">Home</a>
         <a href="#certs">Certifications</a>
@@ -248,141 +158,59 @@
         <a href="#contact">Contact</a>
     </nav>
 
-    <!-- Falling Carrots Script -->
-    <script>
-        let carrotInterval;
-        let carrotsOn = true;
-
-        function spawnCarrot() {
-            const carrot = document.createElement("img");
-            carrot.src = "assets/crystal-carrot.png";
-            carrot.classList.add("carrot");
-            carrot.style.left = Math.random() * 100 + "vw";
-            carrot.style.animationDuration = (3 + Math.random() * 5) + "s";
-            document.body.appendChild(carrot);
-            setTimeout(() => carrot.remove(), 9000);
-        }
-
-        function startCarrots() {
-            carrotInterval = setInterval(spawnCarrot, 600);
-        }
-
-        function stopCarrots() {
-            clearInterval(carrotInterval);
-        }
-
-        function toggleCarrots() {
-            if (carrotsOn) {
-                stopCarrots();
-                carrotsOn = false;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots ON";
-            } else {
-                startCarrots();
-                carrotsOn = true;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots OFF";
-            }
-        }
-
-        startCarrots();
-    </script>
-
-    <!-- Liquid Glass Header -->
     <div class="header">
         <h1>Zayn K. Cage</h1>
         <h2>Network & Cybersecurity Professional</h2>
-
-        <img class="tachyon-silhouette" 
-             src="https://static.wikia.nocookie.net/umamusume/images/4/4e/Agnes_Tachyon_Portrait.png"
-             alt="Agnes Tachyon Silhouette">
+        <img class="tachyon-silhouette" src="https://static.wikia.nocookie.net/umamusume/images/4/4e/Agnes_Tachyon_Portrait.png" alt="Agnes Tachyon">
     </div>
 
     <button id="toggleCarrots" onclick="toggleCarrots()">Turn Carrots OFF</button>
 
-    <!-- Certifications -->
     <div class="box" id="certs">
         <h3>Certifications</h3>
-        <p>CompTIA A+</p>
-        <p>CompTIA Network+</p>
-        <p>CompTIA Security+</p>
-        <p>HTML5 & Semantic Markup</p>
-        <p>CSS3 Styling & Responsive Design</p>
+        <p>CompTIA A+ | Network+ | Security+</p>
+        <p>HTML5 & CSS3 Responsive Design</p>
     </div>
 
-    <!-- Passed Exams -->
     <div class="box" id="passed-exams">
         <h3>Passed Exams</h3>
-
-        <p><strong>Microsoft Excel (Office 2019)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 1/16/2024</p>
-
-        <p><strong>Microsoft PowerPoint (Office 2019)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 11/28/2023</p>
-
-        <p><strong>Microsoft Word (Office 2019)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 11/14/2023</p>
-
-        <p><strong>Network Security</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 11/4/2025</p>
-
-        <p><strong>HTML and CSS</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 4/8/2025</p>
-
-        <p><strong>Cybersecurity</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 8/26/2024</p>
-
-        <p><strong>Information Technology Specialist in Networking</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 4/23/2024</p>
-
-        <p><strong>Device Configuration and Management (Windows 10)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 10/31/2023</p>
+        <p><strong>Microsoft Office 2019:</strong> Excel, PowerPoint, Word</p>
+        <p><strong>Network Security | Cybersecurity | IT Specialist in Networking</strong></p>
+        <p><strong>Device Configuration:</strong> Windows 10</p>
     </div>
 
-    <!-- Projects -->
     <div class="box" id="projects">
         <h3>Technical Projects</h3>
-        <p>Designed and deployed a pfSense firewall lab environment</p>
-        <p>Configured multi‑VLAN network infrastructure using Aruba switching</p>
-        <p>Implemented Active Directory domain services and group policy structure</p>
+        <p>pfSense Firewall Lab | Aruba Multi-VLAN Infrastructure | Active Directory & Group Policy</p>
     </div>
 
-    <!-- Contact -->
     <div class="box" id="contact">
         <h3>Contact</h3>
-        <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
+        <p>Email: zayncage@gmail.com</p>
     </div>
 
-    <!-- Manhattan Café GIF -->
-    <div style="margin: 40px auto;">
-        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif"
-             alt="Manhattan Cafe Uma Musume GIF"
-             style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
-    </div>
+    <footer class="blood-footer"></footer>
 
-    <!-- BLOOD SPLATTER FOOTER -->
-    <footer class="blood-footer">
-        <img src="assets/knife.png" class="knife" alt="Knife">
+    <script>
+        // Snow Effect
+        function createSnowflake() {
+            const snow = document.createElement('div');
+            snow.innerHTML = '❄';
+            snow.className = 'snowflake';
+            snow.style.left = Math.random() * 100 + 'vw';
+            snow.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            snow.style.opacity = Math.random();
+            document.getElementById('snow').appendChild(snow);
+            setTimeout(() => snow.remove(), 5000);
+        }
+        setInterval(createSnowflake, 200);
 
-        <div class="splatter drop1"></div>
-        <div class="splatter drop2"></div>
-        <div class="splatter drop3"></div>
-        <div class="splatter drop4"></div>
-    </footer>
-
+        // Carrot Effect
+        let carrotsOn = true;
+        function toggleCarrots() {
+            carrotsOn = !carrotsOn;
+            document.getElementById("toggleCarrots").innerText = carrotsOn ? "Turn Carrots OFF" : "Turn Carrots ON";
+        }
+    </script>
 </body>
 </html>
