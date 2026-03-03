@@ -5,8 +5,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Updated to a "Deep Arctic" gradient for snow visibility */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            background-attachment: fixed;
             color: #ffeb3b;
             text-align: center;
             padding: 0;
@@ -14,22 +14,20 @@
             overflow-x: hidden;
         }
 
-        /* ------------------------------ */
-        /* SNOW ANIMATION STYLING ADDED  */
-        /* ------------------------------ */
+        /* Snow Animation Styling */
         .snowflake {
             position: fixed;
-            top: -10px;
+            top: -20px;
             color: white;
             user-select: none;
-            z-index: 1; /* Keeps snow behind your content */
+            z-index: 1; /* Above background */
             pointer-events: none;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(105vh);
+                transform: translateY(110vh);
             }
         }
 
@@ -59,9 +57,10 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* GitHub-Style Neon Navigation Bar */
+        /* Navigation Bar */
         nav {
-            background: #000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
             box-shadow: 0 0 15px #ffeb3b;
@@ -86,11 +85,10 @@
         /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
-            /* Updated backdrop to look slightly frosty */
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px) saturate(180%);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
-            border-bottom: 3px solid transparent;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
         }
@@ -102,7 +100,7 @@
             left: -150%;
             width: 300%;
             height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.25), transparent 70%);
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
             animation: liquidGlass 8s infinite linear;
             opacity: 0.5;
         }
@@ -113,128 +111,97 @@
             100% { transform: translateX(0) translateY(0); }
         }
 
-        /* Tachyon Silhouette */
-        .tachyon-silhouette {
-            position: absolute;
-            right: 5%;
-            bottom: 0;
-            width: 280px;
-            opacity: 0.25; /* Increased opacity slightly for contrast */
-            filter: drop-shadow(0 0 20px #ffeb3b);
-            pointer-events: none;
-        }
-
         h1 {
             font-size: 48px;
             margin-bottom: 5px;
-            color: #ffeb3b; /* Changed from black to yellow for visibility */
+            color: #ffeb3b;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 2px 2px 15px rgba(0,0,0,0.8);
             position: relative;
-            z-index: 2;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+            z-index: 3;
         }
 
-        h2 {
-            font-weight: 300;
-            color: #fff176; /* Changed from dark to bright for visibility */
-            position: relative;
-            z-index: 2;
+        h2 { 
+            font-weight: 300; 
+            color: #fff176; 
+            position: relative; 
+            z-index: 3;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        /* Yellow Glow Boxes */
+        /* Frosted Ice Boxes */
         .box {
-            background: rgba(10, 10, 10, 0.85); /* Slightly transparent */
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.05); 
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             padding: 25px;
-            margin: 25px auto;
-            width: 60%;
+            margin: 35px auto;
+            width: 65%;
             border-radius: 12px;
             position: relative;
-            overflow: hidden;
             color: #ffeb3b;
+            z-index: 5;
+            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.8);
+        }
+
+        .box:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- FROST GLITCH EFFECT --- */
+        .glitch-text:hover {
+            display: inline-block;
+            animation: frostGlitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #fff;
+            text-shadow: 2px 0 #00ffff, -2px 0 #ffeb3b;
+            cursor: pointer;
+        }
+
+        @keyframes frostGlitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
         }
 
         .box::before {
             content: "";
             position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            background: linear-gradient(120deg,#ffeb3b,#fff176,#ffeb3b);
-            background-size: 300% 300%;
-            animation: yellowGlow 6s ease infinite;
+            top: -3px; left: -3px; right: -3px; bottom: -3px;
+            background: linear-gradient(135deg, rgba(255,235,59,0.4), rgba(255,255,255,0.7), rgba(255,235,59,0.4));
+            background-size: 400% 400%;
+            animation: iceGlow 8s ease infinite;
             z-index: -1;
-            border-radius: 12px;
+            border-radius: 14px;
+            opacity: 0.6;
         }
 
-        @keyframes yellowGlow {
+        @keyframes iceGlow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
-        /* Falling Carrots (Left as requested, they fall over the snow) */
-        .carrot {
-            position: fixed;
-            top: -100px;
-            width: 40px;
-            height: 40px;
-            z-index: 9999;
-            animation: fallCarrots linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes fallCarrots {
-            0% { transform: translateY(-100px) rotate(0deg); }
-            100% { transform: translateY(120vh) rotate(360deg); }
-        }
-
-        /* Toggle Button */
-        #toggleCarrots {
-            background: #000;
-            color: #ffeb3b;
-            border: 2px solid #ffeb3b;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: 0.3s;
-            position: relative;
-            z-index: 10001;
-        }
-
-        #toggleCarrots:hover {
-            background: #ffeb3b;
-            color: #000;
-            box-shadow: 0 0 15px #ffeb3b;
-        }
-
-        /* ------------------------------ */
-        /* BLOOD SPLATTER FOOTER ADDED   */
-        /* ------------------------------ */
+        /* Blood Splatter Footer (No Knife Reference) */
         .blood-footer {
             position: relative;
             width: 100%;
             height: 160px;
-            background: #ffffff; /* Contrast white background */
-            border-top: 3px solid #ff0000; /* Jagged top border */
+            background: #ffffff;
+            border-top: 3px solid #ff0000;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
-            color: #d40000;
+            z-index: 10;
             margin-top: 50px;
         }
 
-        /* Small knife PNG placeholder if needed */
-        .knife {
-            width: 180px;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            transform: rotate(-20deg);
-            filter: drop-shadow(0 0 10px #ff0000);
-        }
-
-        /* Animated Splatter Particles */
         .splatter {
             position: absolute;
             width: 18px;
@@ -246,7 +213,6 @@
             animation: splatterFly 2.2s infinite ease-out;
         }
 
-        /* Randomized Splatter positions */
         .drop1 { left: 140px; top: 40px; animation-delay: 0s; }
         .drop2 { left: 160px; top: 55px; animation-delay: 0.4s; }
         .drop3 { left: 180px; top: 35px; animation-delay: 0.8s; }
@@ -275,13 +241,7 @@
     <div class="header">
         <h1>Zayn K. Cage</h1>
         <h2>Network & Cybersecurity Professional</h2>
-
-        <img class="tachyon-silhouette" 
-             src="https://static.wikia.nocookie.net/umamusume/images/4/4e/Agnes_Tachyon_Portrait.png"
-             alt="Agnes Tachyon Silhouette">
-    </div>
-
-    <button id="toggleCarrots" onclick="toggleCarrots()">Turn Carrots OFF</button>
+        </div>
 
     <div class="box" id="certs">
         <h3>Certifications</h3>
@@ -294,26 +254,14 @@
 
     <div class="box" id="passed-exams">
         <h3>Passed Exams</h3>
-
-        <p><strong>Microsoft Excel (Office 2019)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 1/16/2024</p>
-
-        <p><strong>Microsoft PowerPoint (Office 2019)</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 11/28/2023</p>
-
-        <p><strong>HTML and CSS</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 4/8/2025</p>
-
-        <p><strong>Cybersecurity</strong><br>
-        Administered by: George Stone Technical Center - Escambia<br>
-        Language: English<br>
-        Passed: 8/26/2024</p>
+        <p><strong class="glitch-text">Microsoft Excel (Office 2019)</strong><br>Passed: 1/16/2024</p>
+        <p><strong class="glitch-text">Microsoft PowerPoint (Office 2019)</strong><br>Passed: 11/28/2023</p>
+        <p><strong class="glitch-text">Microsoft Word (Office 2019)</strong><br>Passed: 11/14/2023</p>
+        <p><strong class="glitch-text">Network Security</strong><br>Passed: 11/4/2025</p>
+        <p><strong class="glitch-text">HTML and CSS</strong><br>Passed: 4/8/2025</p>
+        <p><strong class="glitch-text">Cybersecurity</strong><br>Passed: 8/26/2024</p>
+        <p><strong class="glitch-text">Networking Specialist</strong><br>Passed: 4/23/2024</p>
+        <p><strong class="glitch-text">Device Configuration (Win 10)</strong><br>Passed: 10/31/2023</p>
     </div>
 
     <div class="box" id="projects">
@@ -329,79 +277,37 @@
     </div>
 
     <div style="margin: 40px auto; position: relative; z-index: 5;">
-        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif"
-             alt="Manhattan Cafe Uma Musume GIF"
-             style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
+        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif" alt="Manhattan Cafe" style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
     </div>
 
     <footer class="blood-footer">
-        <img src="assets/knife.png" class="knife" alt="Knife (Placeholder)">
-
         <div class="splatter drop1"></div>
         <div class="splatter drop2"></div>
         <div class="splatter drop3"></div>
         <div class="splatter drop4"></div>
-        <h4>SYSTEM ERROR: BREACHED</h4>
     </footer>
 
     <script>
-        // --- SNOW ANIMATION LOGIC ADDED ---
+        // --- SNOW ANIMATION LOGIC ---
         function createSnowflake() {
             const snowflake = document.createElement("div");
-            // Randomly select different snow particle characters
             const icons = ["❄", "❅", "❆", "•"];
             snowflake.classList.add("snowflake");
             snowflake.innerText = icons[Math.floor(Math.random() * icons.length)];
             snowflake.style.left = Math.random() * 100 + "vw";
-            snowflake.style.animationDuration = (Math.random() * 3 + 2) + "s"; // 2-5 seconds
-            snowflake.style.opacity = Math.random();
-            snowflake.style.fontSize = (Math.random() * 10 + 10) + "px";
+            snowflake.style.animationDuration = (Math.random() * 3 + 4) + "s"; // 4-7 seconds
+            snowflake.style.opacity = Math.random() * 0.8 + 0.2;
+            snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
             
             document.body.appendChild(snowflake);
             
-            // Remove snowflake after it falls to keep DOM clean
             setTimeout(() => {
                 snowflake.remove();
-            }, 5000);
+            }, 7000);
         }
-        // Generate new snowflakes continuously
-        setInterval(createSnowflake, 100);
+        setInterval(createSnowflake, 180);
 
-        // --- CARROT ANIMATION LOGIC (Original) ---
-        let carrotInterval;
-        let carrotsOn = true;
-
-        function spawnCarrot() {
-            const carrot = document.createElement("img");
-            carrot.src = "assets/crystal-carrot.png";
-            carrot.classList.add("carrot");
-            carrot.style.left = Math.random() * 100 + "vw";
-            carrot.style.animationDuration = (3 + Math.random() * 5) + "s";
-            document.body.appendChild(carrot);
-            setTimeout(() => carrot.remove(), 9000);
-        }
-
-        function startCarrots() {
-            carrotInterval = setInterval(spawnCarrot, 600);
-        }
-
-        function stopCarrots() {
-            clearInterval(carrotInterval);
-        }
-
-        function toggleCarrots() {
-            if (carrotsOn) {
-                stopCarrots();
-                carrotsOn = false;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots ON";
-            } else {
-                startCarrots();
-                carrotsOn = true;
-                document.getElementById("toggleCarrots").innerText = "Turn Carrots OFF";
-            }
-        }
-
-        startCarrots();
+        // Carrot logic completely removed
     </script>
 
 </body>
