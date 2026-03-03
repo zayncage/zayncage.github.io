@@ -27,6 +27,7 @@
             z-index: -1;
             opacity: 0.3; /* Adjust opacity to ensure text remains readable */
             pointer-events: none;
+            transition: opacity 0.5s ease;
         }
 
         /* Red Pulse Class triggered by snow hitting the bottom */
@@ -225,11 +226,38 @@
             0% { transform: translate(0, 0); opacity: 1; }
             100% { transform: translate(50px, 100px); opacity: 0; }
         }
+
+        /* GIF Pause/Play Control Button */
+        #gif-control-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10001;
+            padding: 10px 20px;
+            background: #ffeb3b;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        #gif-control-btn:hover {
+            background: #fff176;
+        }
+
+        .gifs-paused {
+            opacity: 0 !important;
+            visibility: hidden;
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-gif-container">
+    <button id="gif-control-btn" onclick="toggleGifs()">Pause GIFs</button>
+
+    <div class="bg-gif-container gif-target">
         <div class="tenor-gif-embed" data-postid="5271339300012166028" data-share-method="host" data-aspect-ratio="1.76596" data-width="100%">
             <a href="https://tenor.com/view/agnes-tachyon-tachyon-agnestachyon-anime-running-gif-5271339300012166028">Agnes Tachyon Agnestachyon GIF</a>
             from <a href="https://tenor.com/search/agnes+tachyon-gifs">Agnes Tachyon GIFs</a>
@@ -283,7 +311,7 @@
         <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
-    <div style="margin: 40px auto; width: 300px; position: relative; z-index: 5; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px #ffeb3b;">
+    <div class="gif-target" style="margin: 40px auto; width: 300px; position: relative; z-index: 5; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px #ffeb3b; transition: opacity 0.5s ease;">
         <div class="tenor-gif-embed" data-postid="12475232483217937905" data-share-method="host" data-aspect-ratio="1" data-width="100%">
             <a href="https://tenor.com/view/manhattan-cafe-uma-musume-uma-musume-pretty-derby-beginning-of-a-new-era-gif-12475232483217937905">Manhattan Cafe Uma Musume GIF</a>
             from <a href="https://tenor.com/search/manhattan+cafe-gifs">Manhattan Cafe GIFs</a>
@@ -301,17 +329,30 @@
         const body = document.body;
         const sun = document.getElementById('setting-sun');
         const shadow = document.getElementById('moon-shadow');
+        let isPaused = false;
+
+        function toggleGifs() {
+            const targets = document.querySelectorAll('.gif-target');
+            const btn = document.getElementById('gif-control-btn');
+            isPaused = !isPaused;
+
+            targets.forEach(el => {
+                if (isPaused) {
+                    el.classList.add('gifs-paused');
+                } else {
+                    el.classList.remove('gifs-paused');
+                }
+            });
+
+            btn.innerText = isPaused ? "Play GIFs" : "Pause GIFs";
+        }
 
         // Combined Scroll Logic for Sun and Moon
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            
-            // Moon Logic: Move shadow from 0 to 100% to shift phases
             shadow.style.left = `${scrollPercent * 100}%`;
-
-            // Sun Logic: Descent and Fade
-            const sunDescent = scrollPercent * 400; // Drops 400px
-            const sunOpacity = 1 - (scrollPercent * 1.5); // Fades out early
+            const sunDescent = scrollPercent * 400; 
+            const sunOpacity = 1 - (scrollPercent * 1.5);
             sun.style.transform = `translateY(${sunDescent}px)`;
             sun.style.opacity = Math.max(sunOpacity, 0);
         });
@@ -321,14 +362,11 @@
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
             snowflake.innerText = "❄";
-            
             const duration = Math.random() * 3 + 4; 
             snowflake.style.left = Math.random() * 100 + "vw";
             snowflake.style.animationDuration = duration + "s";
             snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
-            
             body.appendChild(snowflake);
-            
             setTimeout(() => {
                 body.classList.add('pulse-red');
                 setTimeout(() => body.classList.remove('pulse-red'), 150);
