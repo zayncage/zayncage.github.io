@@ -84,7 +84,6 @@
             to { transform: translateY(110vh); }
         }
 
-        /* --- CELESTIAL ELEMENTS --- */
         .sun {
             position: fixed;
             top: 20px;
@@ -100,8 +99,8 @@
         }
 
         @keyframes sunPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffeb3b; }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .moon-container {
@@ -115,24 +114,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.1s linear; /* Smooth descent */
         }
 
         .moon {
             width: 90px;
             height: 90px;
-            background-color: #f5f5f5; /* Initial color */
+            background-color: #f5f5f5;
             border-radius: 50%;
             position: relative;
             overflow: hidden;
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.2), 0 0 20px rgba(200, 220, 255, 0.4);
-            transition: background-color 0.5s ease, box-shadow 0.5s ease;
-        }
-
-        /* Blood Moon Class */
-        .moon.blood {
-            background-color: #ff0000;
-            box-shadow: inset -10px -10px 20px #4a0000, 0 0 40px #ff0000;
         }
 
         #moon-shadow {
@@ -152,7 +143,6 @@
             backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
-            box-shadow: 0 0 15px #ffeb3b;
             position: sticky;
             top: 0;
             z-index: 10000;
@@ -166,10 +156,9 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 5;
         }
 
+        /* Matrix Box Styling */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
@@ -182,6 +171,22 @@
             z-index: 5;
             box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            overflow: hidden; /* Clips the matrix rain */
+        }
+
+        .matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind text */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .box:hover .matrix-canvas {
+            opacity: 0.3; /* Subtle rain on hover */
         }
 
         .glitch-text:hover {
@@ -203,7 +208,6 @@
             height: 160px;
             background: #ffffff;
             border-top: 3px solid #ff0000;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -214,10 +218,8 @@
 
         .splatter {
             position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #d40000;
-            border-radius: 50%;
+            width: 18px; height: 18px;
+            background: #d40000; border-radius: 50%;
             animation: splatterFly 2.2s infinite ease-out;
         }
     </style>
@@ -227,8 +229,8 @@
     <div id="starfield"></div>
     <div class="sun" id="setting-sun"></div>
 
-    <div class="moon-container" id="moon-container">
-        <div class="moon" id="moon-body"><div id="moon-shadow"></div></div>
+    <div class="moon-container">
+        <div class="moon"><div id="moon-shadow"></div></div>
     </div>
 
     <nav>
@@ -245,15 +247,31 @@
     </div>
 
     <div class="box" id="certs">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Certifications</h3>
         <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
         <p>HTML5 & CSS3 Responsive Design</p>
     </div>
 
     <div class="box" id="passed-exams">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Passed Exams</h3>
         <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
         <p><strong class="glitch-text">Cybersecurity & Network Specialist</strong></p>
+    </div>
+
+    <div class="box" id="projects">
+        <canvas class="matrix-canvas"></canvas>
+        <h3>Technical Projects</h3>
+        <p>pfSense Firewall Lab Environment</p>
+        <p>Multi-VLAN Aruba Network Design</p>
+        <p>Active Directory Domain Services Implementation</p>
+    </div>
+
+    <div class="box" id="contact">
+        <canvas class="matrix-canvas"></canvas>
+        <h3>Contact</h3>
+        <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
     <div style="margin: 40px auto; position: relative; z-index: 5;">
@@ -270,12 +288,36 @@
     <script>
         const body = document.body;
         const sun = document.getElementById('setting-sun');
-        const moonContainer = document.getElementById('moon-container');
-        const moonBody = document.getElementById('moon-body');
         const shadow = document.getElementById('moon-shadow');
         const starLayer = document.getElementById('starfield');
 
-        // Create Stars
+        // --- MATRIX RAIN LOGIC ---
+        const canvases = document.querySelectorAll('.matrix-canvas');
+        canvases.forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = canvas.parentElement.offsetWidth;
+            let height = canvas.height = canvas.parentElement.offsetHeight;
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^";
+            const fontSize = 10;
+            const columns = width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = "#0F0"; // Green matrix text
+                ctx.font = fontSize + "px arial";
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
+        });
+
+        // --- STAR & SHOOTING STAR LOGIC ---
         function initStars() {
             for (let i = 0; i < 150; i++) {
                 const s = document.createElement('div');
@@ -290,7 +332,6 @@
         }
         initStars();
 
-        // Shooting Stars
         function shootStar() {
             const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
             if (sunOpacity < 0.3) {
@@ -316,33 +357,15 @@
         }
         shootStar();
 
-        // Scroll Logic: Moon Descent and Blood Transformation
+        // --- SCROLL & SNOW LOGIC ---
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            
-            // 1. Shadow movement (Moon Phases)
             shadow.style.left = `${scrollPercent * 100}%`;
-
-            // 2. Sun Descent and Fade
             sun.style.transform = `translateY(${scrollPercent * 500}px)`;
             sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
-
-            // 3. Moon Descent (Moving to bottom)
-            const moonDescent = scrollPercent * (window.innerHeight - 150);
-            moonContainer.style.transform = `translateY(${moonDescent}px)`;
-
-            // 4. Blood Moon Transformation (Color shift)
-            if (scrollPercent > 0.7) {
-                moonBody.classList.add('blood');
-            } else {
-                moonBody.classList.remove('blood');
-            }
-
-            // 5. Starfield Opacity
             starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
         });
 
-        // Snow and Red Pulse
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
