@@ -5,6 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* Added transition for the pulse effect */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -12,6 +13,12 @@
             padding: 0;
             margin: 0;
             overflow-x: hidden;
+            transition: background 0.2s ease;
+        }
+
+        /* The Red Pulse Class */
+        body.pulse-red {
+            background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
         }
 
         /* Snow Animation Styling */
@@ -20,15 +27,13 @@
             top: -20px;
             color: white;
             user-select: none;
-            z-index: 1; /* Above background */
+            z-index: 1;
             pointer-events: none;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(110vh);
-            }
+            to { transform: translateY(110vh); }
         }
 
         /* Animated Sun */
@@ -57,7 +62,6 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Navigation Bar */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
@@ -82,33 +86,13 @@
             text-shadow: 0 0 10px #fff176;
         }
 
-        /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px) saturate(180%);
-            -webkit-backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
-        }
-
-        .header::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -150%;
-            width: 300%;
-            height: 100%;
-            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent 70%);
-            animation: liquidGlass 8s infinite linear;
-            opacity: 0.5;
-        }
-
-        @keyframes liquidGlass {
-            0% { transform: translateX(0) translateY(0); }
-            50% { transform: translateX(20%) translateY(-10%); }
-            100% { transform: translateX(0) translateY(0); }
         }
 
         h1 {
@@ -128,11 +112,9 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
-        /* Frosted Ice Boxes */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             padding: 25px;
             margin: 35px auto;
             width: 65%;
@@ -143,15 +125,8 @@
             box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease;
-            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
-        .box:hover {
-            transform: scale(1.02);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* --- FROST GLITCH EFFECT --- */
         .glitch-text:hover {
             display: inline-block;
             animation: frostGlitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
@@ -187,7 +162,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* Blood Splatter Footer (No Knife Reference) */
         .blood-footer {
             position: relative;
             width: 100%;
@@ -223,7 +197,6 @@
             40% { transform: translate(40px, -30px) scale(1.3); opacity: 1; }
             100% { transform: translate(80px, 120px) scale(0.8); opacity: 0; }
         }
-
     </style>
 </head>
 <body>
@@ -241,7 +214,7 @@
     <div class="header">
         <h1>Zayn K. Cage</h1>
         <h2>Network & Cybersecurity Professional</h2>
-        </div>
+    </div>
 
     <div class="box" id="certs">
         <h3>Certifications</h3>
@@ -268,7 +241,6 @@
         <h3>Technical Projects</h3>
         <p>Designed and deployed a pfSense firewall lab environment</p>
         <p>Configured multi‑VLAN network infrastructure using Aruba switching</p>
-        <p>Implemented Active Directory domain services and group policy structure</p>
     </div>
 
     <div class="box" id="contact">
@@ -288,27 +260,36 @@
     </footer>
 
     <script>
-        // --- SNOW ANIMATION LOGIC ---
+        const body = document.body;
+
         function createSnowflake() {
             const snowflake = document.createElement("div");
             const icons = ["❄", "❅", "❆", "•"];
             snowflake.classList.add("snowflake");
             snowflake.innerText = icons[Math.floor(Math.random() * icons.length)];
+            
+            const duration = Math.random() * 3 + 4; // 4-7 seconds
             snowflake.style.left = Math.random() * 100 + "vw";
-            snowflake.style.animationDuration = (Math.random() * 3 + 4) + "s"; // 4-7 seconds
+            snowflake.style.animationDuration = duration + "s";
             snowflake.style.opacity = Math.random() * 0.8 + 0.2;
             snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
             
-            document.body.appendChild(snowflake);
+            body.appendChild(snowflake);
             
+            // Trigger red pulse when snowflake reaches bottom
             setTimeout(() => {
+                body.classList.add('pulse-red');
+                
+                // Remove the pulse class shortly after to reset the color
+                setTimeout(() => {
+                    body.classList.remove('pulse-red');
+                }, 150); 
+                
                 snowflake.remove();
-            }, 7000);
+            }, duration * 1000);
         }
-        setInterval(createSnowflake, 180);
 
-        // Carrot logic completely removed
+        setInterval(createSnowflake, 250); // Adjusted timing to prevent seizure-inducing flickering
     </script>
-
 </body>
 </html>
