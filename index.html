@@ -17,18 +17,6 @@
             scroll-behavior: smooth;
         }
 
-        /* Background GIF Container - Opacity increased for visibility */
-        .bg-gif-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.8; 
-            pointer-events: none;
-        }
-
         /* Red Pulse Class triggered by snow hitting the bottom */
         body.pulse-red {
             background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
@@ -52,7 +40,7 @@
         /* --- SETTING SUN (Left Side) --- */
         .sun {
             position: fixed;
-            top: 20px;
+            top: 20px; /* Initial top position */
             left: 20px;
             width: 120px;
             height: 120px;
@@ -165,7 +153,7 @@
 
         /* Frosted Ice Boxes */
         .box {
-            background: rgba(255, 255, 255, 0.1); 
+            background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
             padding: 25px;
             margin: 35px auto;
@@ -228,14 +216,6 @@
     </style>
 </head>
 <body>
-
-    <div class="bg-gif-container">
-        <div class="tenor-gif-embed" data-postid="5271339300012166028" data-share-method="host" data-aspect-ratio="1.76596" data-width="100%">
-            <a href="https://tenor.com/view/agnes-tachyon-tachyon-agnestachyon-anime-running-gif-5271339300012166028">Agnes Tachyon Agnestachyon GIF</a>
-            from <a href="https://tenor.com/search/agnes+tachyon-gifs">Agnes Tachyon GIFs</a>
-        </div> 
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-    </div>
 
     <div class="sun" id="setting-sun"></div>
 
@@ -302,30 +282,40 @@
         const sun = document.getElementById('setting-sun');
         const shadow = document.getElementById('moon-shadow');
 
+        // Combined Scroll Logic for Sun and Moon
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            // Moon Logic: Move shadow from 0 to 100% to shift phases
             shadow.style.left = `${scrollPercent * 100}%`;
-            const sunDescent = scrollPercent * 400;
-            const sunOpacity = 1 - (scrollPercent * 1.5);
+
+            // Sun Logic: Descent and Fade
+            const sunDescent = scrollPercent * 400; // Drops 400px
+            const sunOpacity = 1 - (scrollPercent * 1.5); // Fades out early
             sun.style.transform = `translateY(${sunDescent}px)`;
             sun.style.opacity = Math.max(sunOpacity, 0);
         });
 
+        // Snow and Red Pulse Logic
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
             snowflake.innerText = "❄";
+            
             const duration = Math.random() * 3 + 4; 
             snowflake.style.left = Math.random() * 100 + "vw";
             snowflake.style.animationDuration = duration + "s";
             snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
+            
             body.appendChild(snowflake);
+            
             setTimeout(() => {
                 body.classList.add('pulse-red');
                 setTimeout(() => body.classList.remove('pulse-red'), 150);
                 snowflake.remove();
             }, duration * 1000);
         }
+
         setInterval(createSnowflake, 250);
     </script>
 </body>
