@@ -40,7 +40,7 @@
         /* --- SETTING SUN (Left Side) --- */
         .sun {
             position: fixed;
-            top: 20px; /* Initial top position */
+            top: 20px; 
             left: 20px;
             width: 120px;
             height: 120px;
@@ -181,6 +181,17 @@
             60% { transform: translate(2px, -2px); }
         }
 
+        /* GIF Container */
+        .gif-container {
+            margin: 40px auto;
+            max-width: 400px;
+            position: relative;
+            z-index: 5;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px #ffeb3b;
+        }
+
         /* Blood Splatter Footer */
         .blood-footer {
             position: relative;
@@ -234,85 +245,4 @@
         <a href="#contact">Contact</a>
     </nav>
 
-    <div class="header">
-        <h1>Zayn K. Cage</h1>
-        <h2>Network & Cybersecurity Professional</h2>
-    </div>
-
-    <div class="box" id="certs">
-        <h3>Certifications</h3>
-        <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
-        <p>HTML5 & CSS3 Responsive Design</p>
-    </div>
-
-    <div class="box" id="passed-exams">
-        <h3>Passed Exams</h3>
-        <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
-        <p><strong class="glitch-text">Cybersecurity & Network Specialist</strong></p>
-    </div>
-
-    <div class="box" id="projects">
-        <h3>Technical Projects</h3>
-        <p>pfSense Firewall Lab Environment</p>
-        <p>Multi-VLAN Aruba Network Design</p>
-        <p>Active Directory Domain Services Implementation</p>
-    </div>
-
-    <div class="box" id="contact">
-        <h3>Contact</h3>
-        <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
-    </div>
-
-    <div style="margin: 40px auto; position: relative; z-index: 5;">
-        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif" alt="Manhattan Cafe" style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
-    </div>
-
-    <footer class="blood-footer">
-        <div class="splatter drop1"></div>
-        <div class="splatter drop2"></div>
-        <div class="splatter drop3"></div>
-    </footer>
-
-    <script>
-        const body = document.body;
-        const sun = document.getElementById('setting-sun');
-        const shadow = document.getElementById('moon-shadow');
-
-        // Combined Scroll Logic for Sun and Moon
-        window.addEventListener('scroll', () => {
-            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            
-            // Moon Logic: Move shadow from 0 to 100% to shift phases
-            shadow.style.left = `${scrollPercent * 100}%`;
-
-            // Sun Logic: Descent and Fade
-            const sunDescent = scrollPercent * 400; // Drops 400px
-            const sunOpacity = 1 - (scrollPercent * 1.5); // Fades out early
-            sun.style.transform = `translateY(${sunDescent}px)`;
-            sun.style.opacity = Math.max(sunOpacity, 0);
-        });
-
-        // Snow and Red Pulse Logic
-        function createSnowflake() {
-            const snowflake = document.createElement("div");
-            snowflake.classList.add("snowflake");
-            snowflake.innerText = "❄";
-            
-            const duration = Math.random() * 3 + 4; 
-            snowflake.style.left = Math.random() * 100 + "vw";
-            snowflake.style.animationDuration = duration + "s";
-            snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
-            
-            body.appendChild(snowflake);
-            
-            setTimeout(() => {
-                body.classList.add('pulse-red');
-                setTimeout(() => body.classList.remove('pulse-red'), 150);
-                snowflake.remove();
-            }, duration * 1000);
-        }
-
-        setInterval(createSnowflake, 250);
-    </script>
-</body>
-</html>
+    <div class="
