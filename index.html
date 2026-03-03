@@ -25,7 +25,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0;
+            opacity: 0; /* Will be controlled by scroll */
         }
 
         .star {
@@ -40,30 +40,23 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Glitchy Shooting Star */
         .shooting-star {
             position: fixed;
+            top: 0;
+            left: 50%;
             width: 2px;
             height: 2px;
-            background: white;
-            box-shadow: 0 0 10px #ff0000;
+            background: linear-gradient(90deg, white, transparent);
+            box-shadow: 0 0 10px white;
             z-index: 1;
+            opacity: 0;
             pointer-events: none;
         }
 
-        .glitch-trail {
-            position: fixed;
-            color: #ff0000;
-            font-size: 8px;
-            font-family: 'Courier New', Courier, monospace;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.8;
-            animation: fadeGlitch 0.6s forwards;
-        }
-
-        @keyframes fadeGlitch {
-            to { opacity: 0; transform: translateY(10px) scale(0.5); }
+        @keyframes shoot {
+            0% { transform: translateX(0) translateY(0) rotate(-45deg) scaleX(0); opacity: 1; }
+            10% { scaleX(50); }
+            100% { transform: translateX(-1000px) translateY(1000px) rotate(-45deg) scaleX(50); opacity: 0; }
         }
 
         /* --- THEMED ANIMATIONS --- */
@@ -97,6 +90,7 @@
             animation: sunPulse 4s ease-in-out infinite;
             z-index: 9998;
             pointer-events: none;
+            transition: transform 0.1s linear, opacity 0.1s linear;
         }
 
         @keyframes sunPulse {
@@ -180,7 +174,7 @@
             display: inline-block;
             animation: frostGlitch 0.3s infinite;
             color: #fff;
-            text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+            text-shadow: 2px 0 #00ffff, -2px 0 #ffeb3b;
         }
 
         @keyframes frostGlitch {
@@ -220,7 +214,9 @@
     <div class="sun" id="setting-sun"></div>
 
     <div class="moon-container">
-        <div class="moon"><div id="moon-shadow"></div></div>
+        <div class="moon">
+            <div id="moon-shadow"></div>
+        </div>
     </div>
 
     <nav>
@@ -263,70 +259,52 @@
         const body = document.body;
         const sun = document.getElementById('setting-sun');
         const shadow = document.getElementById('moon-shadow');
-        const starLayer = document.getElementById('starfield');
+        const stars = document.getElementById('starfield');
 
-        // Create Background Stars
-        function initStars() {
+        // Initialize Stars
+        function createStars() {
             for (let i = 0; i < 150; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
+                const star = document.createElement('div');
+                star.className = 'star';
                 const size = Math.random() * 3 + 'px';
-                s.style.width = size; s.style.height = size;
-                s.style.top = Math.random() * 100 + 'vh';
-                s.style.left = Math.random() * 100 + 'vw';
-                s.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-                starLayer.appendChild(s);
+                star.style.width = size;
+                star.style.height = size;
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                stars.appendChild(star);
             }
         }
-        initStars();
+        createStars();
 
-        // Glitchy Shooting Star Logic
-        function shootStar() {
-            const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
-            if (sunOpacity < 0.3) {
+        // Shooting Star Logic
+        function triggerShootingStar() {
+            // Only trigger if sun is mostly set (opacity < 0.4)
+            if (parseFloat(sun.style.opacity) < 0.4) {
                 const sStar = document.createElement('div');
                 sStar.className = 'shooting-star';
-                let x = Math.random() * window.innerWidth;
-                let y = Math.random() * (window.innerHeight / 2);
-                sStar.style.left = x + 'px';
-                sStar.style.top = y + 'px';
+                sStar.style.top = Math.random() * 50 + 'vh';
+                sStar.style.left = (Math.random() * 50 + 50) + 'vw';
+                sStar.style.animation = 'shoot 1s linear forwards';
                 document.body.appendChild(sStar);
-
-                let steps = 0;
-                const maxSteps = 40;
-                const interval = setInterval(() => {
-                    x -= 10; y += 8;
-                    sStar.style.left = x + 'px';
-                    sStar.style.top = y + 'px';
-                    
-                    // Create trail bit
-                    const trail = document.createElement('div');
-                    trail.className = 'glitch-trail';
-                    trail.innerText = Math.random() > 0.5 ? '1' : '0';
-                    trail.style.left = x + 'px';
-                    trail.style.top = y + 'px';
-                    document.body.appendChild(trail);
-                    setTimeout(() => trail.remove(), 600);
-
-                    steps++;
-                    if (steps > maxSteps) {
-                        clearInterval(interval);
-                        sStar.remove();
-                    }
-                }, 20);
+                setTimeout(() => sStar.remove(), 1000);
             }
-            setTimeout(shootStar, Math.random() * 6000 + 2000);
+            setTimeout(triggerShootingStar, Math.random() * 5000 + 3000);
         }
-        shootStar();
+        triggerShootingStar();
 
         // Scroll Logic
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            // Sun/Moon
             shadow.style.left = `${scrollPercent * 100}%`;
             sun.style.transform = `translateY(${scrollPercent * 500}px)`;
-            const sunOp = Math.max(1 - (scrollPercent * 1.5), 0);
-            sun.style.opacity = sunOp;
-            starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
+            const opacity = Math.max(1 - (scrollPercent * 1.5), 0);
+            sun.style.opacity = opacity;
+
+            // Fade in stars as sun sets
+            stars.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.2 : 0;
         });
 
         // Snow/Pulse
