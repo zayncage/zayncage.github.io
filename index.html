@@ -40,6 +40,7 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
+        /* Glitchy Shooting Star */
         .shooting-star {
             position: fixed;
             width: 2px;
@@ -54,7 +55,7 @@
             position: fixed;
             color: #ff0000;
             font-size: 8px;
-            font-family: 'Courier New', monospace;
+            font-family: 'Courier New', Courier, monospace;
             pointer-events: none;
             z-index: 1;
             opacity: 0.8;
@@ -99,8 +100,8 @@
         }
 
         @keyframes sunPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffeb3b; }
+            50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
         }
 
         .moon-container {
@@ -143,6 +144,7 @@
             backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
+            box-shadow: 0 0 15px #ffeb3b;
             position: sticky;
             top: 0;
             z-index: 10000;
@@ -156,9 +158,10 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 5;
         }
 
-        /* Matrix Box Styling */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
@@ -171,22 +174,6 @@
             z-index: 5;
             box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden; /* Clips the matrix rain */
-        }
-
-        .matrix-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; /* Behind text */
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .box:hover .matrix-canvas {
-            opacity: 0.3; /* Subtle rain on hover */
         }
 
         .glitch-text:hover {
@@ -208,6 +195,7 @@
             height: 160px;
             background: #ffffff;
             border-top: 3px solid #ff0000;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -218,8 +206,10 @@
 
         .splatter {
             position: absolute;
-            width: 18px; height: 18px;
-            background: #d40000; border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            background: #d40000;
+            border-radius: 50%;
             animation: splatterFly 2.2s infinite ease-out;
         }
     </style>
@@ -247,31 +237,15 @@
     </div>
 
     <div class="box" id="certs">
-        <canvas class="matrix-canvas"></canvas>
         <h3>Certifications</h3>
         <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
         <p>HTML5 & CSS3 Responsive Design</p>
     </div>
 
     <div class="box" id="passed-exams">
-        <canvas class="matrix-canvas"></canvas>
         <h3>Passed Exams</h3>
         <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
         <p><strong class="glitch-text">Cybersecurity & Network Specialist</strong></p>
-    </div>
-
-    <div class="box" id="projects">
-        <canvas class="matrix-canvas"></canvas>
-        <h3>Technical Projects</h3>
-        <p>pfSense Firewall Lab Environment</p>
-        <p>Multi-VLAN Aruba Network Design</p>
-        <p>Active Directory Domain Services Implementation</p>
-    </div>
-
-    <div class="box" id="contact">
-        <canvas class="matrix-canvas"></canvas>
-        <h3>Contact</h3>
-        <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
     <div style="margin: 40px auto; position: relative; z-index: 5;">
@@ -291,33 +265,7 @@
         const shadow = document.getElementById('moon-shadow');
         const starLayer = document.getElementById('starfield');
 
-        // --- MATRIX RAIN LOGIC ---
-        const canvases = document.querySelectorAll('.matrix-canvas');
-        canvases.forEach(canvas => {
-            const ctx = canvas.getContext('2d');
-            let width = canvas.width = canvas.parentElement.offsetWidth;
-            let height = canvas.height = canvas.parentElement.offsetHeight;
-            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^";
-            const fontSize = 10;
-            const columns = width / fontSize;
-            const drops = Array(Math.floor(columns)).fill(1);
-
-            function draw() {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
-                ctx.fillRect(0, 0, width, height);
-                ctx.fillStyle = "#0F0"; // Green matrix text
-                ctx.font = fontSize + "px arial";
-                for (let i = 0; i < drops.length; i++) {
-                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                    if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
-                    drops[i]++;
-                }
-            }
-            setInterval(draw, 33);
-        });
-
-        // --- STAR & SHOOTING STAR LOGIC ---
+        // Create Background Stars
         function initStars() {
             for (let i = 0; i < 150; i++) {
                 const s = document.createElement('div');
@@ -332,6 +280,7 @@
         }
         initStars();
 
+        // Glitchy Shooting Star Logic
         function shootStar() {
             const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
             if (sunOpacity < 0.3) {
@@ -339,33 +288,48 @@
                 sStar.className = 'shooting-star';
                 let x = Math.random() * window.innerWidth;
                 let y = Math.random() * (window.innerHeight / 2);
+                sStar.style.left = x + 'px';
+                sStar.style.top = y + 'px';
                 document.body.appendChild(sStar);
+
                 let steps = 0;
+                const maxSteps = 40;
                 const interval = setInterval(() => {
                     x -= 10; y += 8;
-                    sStar.style.left = x + 'px'; sStar.style.top = y + 'px';
+                    sStar.style.left = x + 'px';
+                    sStar.style.top = y + 'px';
+                    
+                    // Create trail bit
                     const trail = document.createElement('div');
                     trail.className = 'glitch-trail';
                     trail.innerText = Math.random() > 0.5 ? '1' : '0';
-                    trail.style.left = x + 'px'; trail.style.top = y + 'px';
+                    trail.style.left = x + 'px';
+                    trail.style.top = y + 'px';
                     document.body.appendChild(trail);
                     setTimeout(() => trail.remove(), 600);
-                    if (steps++ > 40) { clearInterval(interval); sStar.remove(); }
+
+                    steps++;
+                    if (steps > maxSteps) {
+                        clearInterval(interval);
+                        sStar.remove();
+                    }
                 }, 20);
             }
             setTimeout(shootStar, Math.random() * 6000 + 2000);
         }
         shootStar();
 
-        // --- SCROLL & SNOW LOGIC ---
+        // Scroll Logic
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
             shadow.style.left = `${scrollPercent * 100}%`;
             sun.style.transform = `translateY(${scrollPercent * 500}px)`;
-            sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
+            const sunOp = Math.max(1 - (scrollPercent * 1.5), 0);
+            sun.style.opacity = sunOp;
             starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
         });
 
+        // Snow/Pulse
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
