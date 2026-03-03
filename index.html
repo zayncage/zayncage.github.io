@@ -5,7 +5,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Winter Night Gradient - Fixed background */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -17,18 +16,66 @@
             scroll-behavior: smooth;
         }
 
-        /* Red Pulse Class triggered by snow hitting the bottom */
+        /* --- BACKGROUND ELEMENTS --- */
+        #starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .shooting-star {
+            position: fixed;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 10px #ff0000;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .glitch-trail {
+            position: fixed;
+            color: #ff0000;
+            font-size: 8px;
+            font-family: 'Courier New', monospace;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.8;
+            animation: fadeGlitch 0.6s forwards;
+        }
+
+        @keyframes fadeGlitch {
+            to { opacity: 0; transform: translateY(10px) scale(0.5); }
+        }
+
+        /* --- THEMED ANIMATIONS --- */
         body.pulse-red {
             background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
         }
 
-        /* Snow Animation Styling */
         .snowflake {
             position: fixed;
             top: -20px;
             color: white;
             user-select: none;
-            z-index: 1;
+            z-index: 2;
             pointer-events: none;
             animation: fall linear forwards;
         }
@@ -37,10 +84,9 @@
             to { transform: translateY(110vh); }
         }
 
-        /* --- SETTING SUN (Left Side) --- */
         .sun {
             position: fixed;
-            top: 20px; /* Initial top position */
+            top: 20px;
             left: 20px;
             width: 120px;
             height: 120px;
@@ -50,15 +96,13 @@
             animation: sunPulse 4s ease-in-out infinite;
             z-index: 9998;
             pointer-events: none;
-            transition: transform 0.1s linear, opacity 0.1s linear;
         }
 
         @keyframes sunPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffeb3b; }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
-        /* --- PHASE SHIFTING MOON (Right Side) --- */
         .moon-container {
             position: fixed;
             top: 20px;
@@ -93,65 +137,28 @@
             transition: left 0.1s ease-out;
         }
 
-        .moon-orbital-glow {
-            position: absolute;
-            width: 130px;
-            height: 130px;
-            background: conic-gradient(from 0deg, rgba(200, 220, 255, 0.2) 0%, transparent 40%, rgba(200, 220, 255, 0.2) 100%);
-            border-radius: 50%;
-            animation: moonOrbitSpin 15s linear infinite;
-            filter: blur(5px);
-            z-index: -1;
-        }
-
-        @keyframes moonOrbitSpin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Navigation Bar */
+        /* --- SITE CONTENT --- */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
-            box-shadow: 0 0 15px #ffeb3b;
             position: sticky;
             top: 0;
             z-index: 10000;
         }
 
-        nav a {
-            color: #ffeb3b;
-            margin: 0 20px;
-            text-decoration: none;
-            font-size: 18px;
-            transition: 0.3s;
-        }
+        nav a { color: #ffeb3b; margin: 0 20px; text-decoration: none; font-size: 18px; transition: 0.3s; }
+        nav a:hover { color: #fff176; text-shadow: 0 0 10px #fff176; }
 
-        nav a:hover {
-            color: #fff176;
-            text-shadow: 0 0 10px #fff176;
-        }
-
-        /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px) saturate(180%);
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            overflow: hidden;
         }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 5px;
-            color: #ffeb3b;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.4), 2px 2px 15px rgba(0,0,0,0.8);
-            z-index: 3;
-        }
-
-        /* Frosted Ice Boxes */
+        /* Matrix Box Styling */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
@@ -164,15 +171,29 @@
             z-index: 5;
             box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+            overflow: hidden; /* Clips the matrix rain */
+        }
+
+        .matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind text */
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .box:hover .matrix-canvas {
+            opacity: 0.3; /* Subtle rain on hover */
         }
 
         .glitch-text:hover {
             display: inline-block;
-            animation: frostGlitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            animation: frostGlitch 0.3s infinite;
             color: #fff;
-            text-shadow: 2px 0 #00ffff, -2px 0 #ffeb3b;
-            cursor: pointer;
+            text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
         }
 
         @keyframes frostGlitch {
@@ -181,15 +202,14 @@
             60% { transform: translate(2px, -2px); }
         }
 
-        /* Blood Splatter Footer */
         .blood-footer {
             position: relative;
             width: 100%;
             height: 160px;
             background: #ffffff;
             border-top: 3px solid #ff0000;
-            overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10;
@@ -198,32 +218,19 @@
 
         .splatter {
             position: absolute;
-            width: 18px;
-            height: 18px;
-            background: #d40000;
-            border-radius: 50%;
+            width: 18px; height: 18px;
+            background: #d40000; border-radius: 50%;
             animation: splatterFly 2.2s infinite ease-out;
-        }
-
-        .drop1 { left: 15%; top: 40px; animation-delay: 0s; }
-        .drop2 { left: 45%; top: 55px; animation-delay: 0.4s; }
-        .drop3 { left: 75%; top: 35px; animation-delay: 0.8s; }
-
-        @keyframes splatterFly {
-            0% { transform: translate(0, 0); opacity: 1; }
-            100% { transform: translate(50px, 100px); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
+    <div id="starfield"></div>
     <div class="sun" id="setting-sun"></div>
 
     <div class="moon-container">
-        <div class="moon-orbital-glow"></div>
-        <div class="moon">
-            <div id="moon-shadow"></div>
-        </div>
+        <div class="moon"><div id="moon-shadow"></div></div>
     </div>
 
     <nav>
@@ -240,18 +247,21 @@
     </div>
 
     <div class="box" id="certs">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Certifications</h3>
         <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
         <p>HTML5 & CSS3 Responsive Design</p>
     </div>
 
     <div class="box" id="passed-exams">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Passed Exams</h3>
         <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
         <p><strong class="glitch-text">Cybersecurity & Network Specialist</strong></p>
     </div>
 
     <div class="box" id="projects">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Technical Projects</h3>
         <p>pfSense Firewall Lab Environment</p>
         <p>Multi-VLAN Aruba Network Design</p>
@@ -259,60 +269,118 @@
     </div>
 
     <div class="box" id="contact">
+        <canvas class="matrix-canvas"></canvas>
         <h3>Contact</h3>
         <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
     <div style="margin: 40px auto; position: relative; z-index: 5;">
-        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif" alt="Manhattan Cafe" style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
+        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif" alt="Cafe" style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
     </div>
 
     <footer class="blood-footer">
-        <div class="splatter drop1"></div>
-        <div class="splatter drop2"></div>
-        <div class="splatter drop3"></div>
+        <div class="splatter" style="left: 15%; top: 40px;"></div>
+        <div class="splatter" style="left: 45%; top: 55px; animation-delay: 0.4s;"></div>
+        <div class="splatter" style="left: 75%; top: 35px; animation-delay: 0.8s;"></div>
+        <h4 style="color: #d40000; margin: 0;">SYSTEM ERROR: BREACHED</h4>
     </footer>
 
     <script>
         const body = document.body;
         const sun = document.getElementById('setting-sun');
         const shadow = document.getElementById('moon-shadow');
+        const starLayer = document.getElementById('starfield');
 
-        // Combined Scroll Logic for Sun and Moon
-        window.addEventListener('scroll', () => {
-            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
-            
-            // Moon Logic: Move shadow from 0 to 100% to shift phases
-            shadow.style.left = `${scrollPercent * 100}%`;
+        // --- MATRIX RAIN LOGIC ---
+        const canvases = document.querySelectorAll('.matrix-canvas');
+        canvases.forEach(canvas => {
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = canvas.parentElement.offsetWidth;
+            let height = canvas.height = canvas.parentElement.offsetHeight;
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()*&^";
+            const fontSize = 10;
+            const columns = width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
 
-            // Sun Logic: Descent and Fade
-            const sunDescent = scrollPercent * 400; // Drops 400px
-            const sunOpacity = 1 - (scrollPercent * 1.5); // Fades out early
-            sun.style.transform = `translateY(${sunDescent}px)`;
-            sun.style.opacity = Math.max(sunOpacity, 0);
+            function draw() {
+                ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+                ctx.fillRect(0, 0, width, height);
+                ctx.fillStyle = "#0F0"; // Green matrix text
+                ctx.font = fontSize + "px arial";
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = 0;
+                    drops[i]++;
+                }
+            }
+            setInterval(draw, 33);
         });
 
-        // Snow and Red Pulse Logic
+        // --- STAR & SHOOTING STAR LOGIC ---
+        function initStars() {
+            for (let i = 0; i < 150; i++) {
+                const s = document.createElement('div');
+                s.className = 'star';
+                const size = Math.random() * 3 + 'px';
+                s.style.width = size; s.style.height = size;
+                s.style.top = Math.random() * 100 + 'vh';
+                s.style.left = Math.random() * 100 + 'vw';
+                s.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                starLayer.appendChild(s);
+            }
+        }
+        initStars();
+
+        function shootStar() {
+            const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
+            if (sunOpacity < 0.3) {
+                const sStar = document.createElement('div');
+                sStar.className = 'shooting-star';
+                let x = Math.random() * window.innerWidth;
+                let y = Math.random() * (window.innerHeight / 2);
+                document.body.appendChild(sStar);
+                let steps = 0;
+                const interval = setInterval(() => {
+                    x -= 10; y += 8;
+                    sStar.style.left = x + 'px'; sStar.style.top = y + 'px';
+                    const trail = document.createElement('div');
+                    trail.className = 'glitch-trail';
+                    trail.innerText = Math.random() > 0.5 ? '1' : '0';
+                    trail.style.left = x + 'px'; trail.style.top = y + 'px';
+                    document.body.appendChild(trail);
+                    setTimeout(() => trail.remove(), 600);
+                    if (steps++ > 40) { clearInterval(interval); sStar.remove(); }
+                }, 20);
+            }
+            setTimeout(shootStar, Math.random() * 6000 + 2000);
+        }
+        shootStar();
+
+        // --- SCROLL & SNOW LOGIC ---
+        window.addEventListener('scroll', () => {
+            const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            shadow.style.left = `${scrollPercent * 100}%`;
+            sun.style.transform = `translateY(${scrollPercent * 500}px)`;
+            sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
+            starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
+        });
+
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
             snowflake.innerText = "❄";
-            
             const duration = Math.random() * 3 + 4; 
             snowflake.style.left = Math.random() * 100 + "vw";
             snowflake.style.animationDuration = duration + "s";
-            snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
-            
             body.appendChild(snowflake);
-            
             setTimeout(() => {
                 body.classList.add('pulse-red');
                 setTimeout(() => body.classList.remove('pulse-red'), 150);
                 snowflake.remove();
             }, duration * 1000);
         }
-
-        setInterval(createSnowflake, 250);
+        setInterval(createSnowflake, 300);
     </script>
 </body>
 </html>
