@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Added transition for the pulse effect */
+            /* Winter Night Gradient - Fixed background */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -16,7 +16,7 @@
             transition: background 0.2s ease;
         }
 
-        /* The Red Pulse Class */
+        /* The Red Pulse Class triggered by snow */
         body.pulse-red {
             background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
         }
@@ -27,7 +27,7 @@
             top: -20px;
             color: white;
             user-select: none;
-            z-index: 1;
+            z-index: 1; /* Below text, above background */
             pointer-events: none;
             animation: fall linear forwards;
         }
@@ -36,7 +36,7 @@
             to { transform: translateY(110vh); }
         }
 
-        /* Animated Sun */
+        /* Animated Sun (Left Side) */
         .sun {
             position: fixed;
             top: 20px;
@@ -62,6 +62,60 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* ------------------------------ */
+        /* MOON ANIMATION STYLING ADDED   */
+        /* ------------------------------ */
+        .moon-container {
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Aligned to the right */
+            width: 120px;
+            height: 120px;
+            z-index: 9998;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .moon {
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle at 70% 30%, transparent 60%, white 90%);
+            border-radius: 50%;
+            filter: drop-shadow(0 0 15px rgba(200, 220, 255, 0.6)); /* Cold moonlight glow */
+            position: relative;
+        }
+
+        /* Moon Crater Details */
+        .moon::after {
+            content: "• .";
+            position: absolute;
+            font-size: 14px;
+            color: rgba(0,0,0,0.1);
+            bottom: 25px;
+            right: 25px;
+            letter-spacing: -2px;
+        }
+
+        /* The spinning orbital glow around the moon */
+        .moon-orbital-glow {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: conic-gradient(from 0deg, rgba(200, 220, 255, 0.3) 0%, transparent 40%, rgba(200, 220, 255, 0.3) 100%);
+            border-radius: 50%;
+            animation: moonOrbitSpin 15s linear infinite;
+            filter: blur(5px);
+            z-index: -1;
+        }
+
+        @keyframes moonOrbitSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation Bar */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
@@ -86,6 +140,7 @@
             text-shadow: 0 0 10px #fff176;
         }
 
+        /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
@@ -112,9 +167,11 @@
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
         }
 
+        /* Frosted Ice Boxes */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
             padding: 25px;
             margin: 35px auto;
             width: 65%;
@@ -125,8 +182,15 @@
             box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 1px 1px 2px rgba(0, 0, 0, 0.8);
         }
 
+        .box:hover {
+            transform: scale(1.02);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- FROST GLITCH EFFECT --- */
         .glitch-text:hover {
             display: inline-block;
             animation: frostGlitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
@@ -162,6 +226,7 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* Blood Splatter Footer */
         .blood-footer {
             position: relative;
             width: 100%;
@@ -203,6 +268,11 @@
 
     <div class="sun"></div>
 
+    <div class="moon-container">
+        <div class="moon-orbital-glow"></div>
+        <div class="moon"></div>
+    </div>
+
     <nav>
         <a href="#">Home</a>
         <a href="#certs">Certifications</a>
@@ -241,6 +311,7 @@
         <h3>Technical Projects</h3>
         <p>Designed and deployed a pfSense firewall lab environment</p>
         <p>Configured multi‑VLAN network infrastructure using Aruba switching</p>
+        <p>Implemented Active Directory domain services and group policy structure</p>
     </div>
 
     <div class="box" id="contact">
@@ -262,6 +333,7 @@
     <script>
         const body = document.body;
 
+        // --- SNOW ANIMATION LOGIC WITH BACKGROUND PULSE ---
         function createSnowflake() {
             const snowflake = document.createElement("div");
             const icons = ["❄", "❅", "❆", "•"];
@@ -276,20 +348,23 @@
             
             body.appendChild(snowflake);
             
-            // Trigger red pulse when snowflake reaches bottom
+            // Detection: Trigger background pulse when snowflake reaches bottom
             setTimeout(() => {
+                // Apply the red pulse class
                 body.classList.add('pulse-red');
                 
                 // Remove the pulse class shortly after to reset the color
                 setTimeout(() => {
                     body.classList.remove('pulse-red');
-                }, 150); 
+                }, 150); // duration of the red pulse
                 
+                // Clean up the snowflake
                 snowflake.remove();
-            }, duration * 1000);
+            }, duration * 1000); // sync detection with animation end
         }
 
-        setInterval(createSnowflake, 250); // Adjusted timing to prevent seizure-inducing flickering
+        // Adjust interval for pulse aesthetic (too fast looks like strobing)
+        setInterval(createSnowflake, 250);
     </script>
 </body>
 </html>
