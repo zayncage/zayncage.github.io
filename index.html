@@ -5,6 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            /* Deep Space Background */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -16,7 +17,7 @@
             scroll-behavior: smooth;
         }
 
-        /* --- BACKGROUND ELEMENTS --- */
+        /* --- TWINKLING STARFIELD --- */
         #starfield {
             position: fixed;
             top: 0;
@@ -25,13 +26,15 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0;
+            opacity: 0; /* Starts invisible, appears as sun sets */
+            transition: opacity 0.5s ease;
         }
 
         .star {
             position: absolute;
             background: white;
             border-radius: 50%;
+            opacity: 0.5;
             animation: twinkle var(--duration) infinite ease-in-out;
         }
 
@@ -40,41 +43,16 @@
             50% { opacity: 1; transform: scale(1.2); }
         }
 
-        .shooting-star {
-            position: fixed;
-            width: 2px;
-            height: 2px;
-            background: white;
-            box-shadow: 0 0 10px #ff0000;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .glitch-trail {
-            position: fixed;
-            color: #ff0000;
-            font-size: 8px;
-            font-family: 'Courier New', monospace;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0.8;
-            animation: fadeGlitch 0.6s forwards;
-        }
-
-        @keyframes fadeGlitch {
-            to { opacity: 0; transform: translateY(10px) scale(0.5); }
-        }
-
-        /* --- THEMED ANIMATIONS --- */
+        /* Red Pulse Class */
         body.pulse-red {
             background: radial-gradient(ellipse at bottom, #4a0000 0%, #090A0F 100%);
         }
 
+        /* Snow Styling */
         .snowflake {
             position: fixed;
             top: -20px;
             color: white;
-            user-select: none;
             z-index: 2;
             pointer-events: none;
             animation: fall linear forwards;
@@ -84,7 +62,7 @@
             to { transform: translateY(110vh); }
         }
 
-        /* --- CELESTIAL ELEMENTS --- */
+        /* Setting Sun (Left) */
         .sun {
             position: fixed;
             top: 20px;
@@ -100,10 +78,11 @@
         }
 
         @keyframes sunPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #ffeb3b, 0 0 80px #ffeb3b; }
-            50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
+        /* Phase Shifting Moon (Right) */
         .moon-container {
             position: fixed;
             top: 20px;
@@ -111,11 +90,9 @@
             width: 120px;
             height: 120px;
             z-index: 9998;
-            pointer-events: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: transform 0.1s linear; 
         }
 
         .moon {
@@ -126,12 +103,6 @@
             position: relative;
             overflow: hidden;
             box-shadow: inset -10px -10px 15px rgba(0,0,0,0.2), 0 0 20px rgba(200, 220, 255, 0.4);
-            transition: background-color 0.5s ease, box-shadow 0.5s ease;
-        }
-
-        .moon.blood {
-            background-color: #ff0000;
-            box-shadow: inset -10px -10px 20px #4a0000, 0 0 40px #ff0000;
         }
 
         #moon-shadow {
@@ -145,13 +116,12 @@
             transition: left 0.1s ease-out;
         }
 
-        /* --- SITE CONTENT --- */
+        /* General UI Components */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
             padding: 15px 0;
             border-bottom: 2px solid #ffeb3b;
-            box-shadow: 0 0 15px #ffeb3b;
             position: sticky;
             top: 0;
             z-index: 10000;
@@ -163,8 +133,7 @@
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
             position: relative;
             z-index: 5;
         }
@@ -176,34 +145,21 @@
             margin: 35px auto;
             width: 65%;
             border-radius: 12px;
-            position: relative;
-            color: #ffeb3b;
-            z-index: 5;
-            box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2), 0 10px 30px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 5;
         }
 
         .glitch-text:hover {
-            display: inline-block;
             animation: frostGlitch 0.3s infinite;
             color: #fff;
-            text-shadow: 2px 0 #ff0000, -2px 0 #00ffff;
+            text-shadow: 2px 0 #00ffff, -2px 0 #ffeb3b;
         }
 
         @keyframes frostGlitch {
             0%, 100% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
             60% { transform: translate(2px, -2px); }
-        }
-
-        .gif-container {
-            margin: 40px auto; 
-            width: 300px; 
-            position: relative; 
-            z-index: 5; 
-            border-radius: 12px; 
-            overflow: hidden; 
-            box-shadow: 0 0 20px #ffeb3b;
         }
 
         .blood-footer {
@@ -214,11 +170,10 @@
             border-top: 3px solid #ff0000;
             overflow: hidden;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
             margin-top: 50px;
+            z-index: 10;
         }
 
         .splatter {
@@ -229,6 +184,11 @@
             border-radius: 50%;
             animation: splatterFly 2.2s infinite ease-out;
         }
+
+        @keyframes splatterFly {
+            0% { transform: translate(0, 0); opacity: 1; }
+            100% { transform: translate(50px, 120px); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -236,8 +196,8 @@
     <div id="starfield"></div>
     <div class="sun" id="setting-sun"></div>
 
-    <div class="moon-container" id="moon-container">
-        <div class="moon" id="moon-body"><div id="moon-shadow"></div></div>
+    <div class="moon-container">
+        <div class="moon"><div id="moon-shadow"></div></div>
     </div>
 
     <nav>
@@ -256,99 +216,75 @@
     <div class="box" id="certs">
         <h3>Certifications</h3>
         <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
-        <p>HTML5 & CSS3 Responsive Design</p>
     </div>
 
     <div class="box" id="passed-exams">
         <h3>Passed Exams</h3>
-        <p><strong class="glitch-text">Microsoft Office Specialist 2019</strong></p>
-        <p><strong class="glitch-text">Cybersecurity & Network Specialist</strong></p>
+        <p><strong class="glitch-text">HTML and CSS - Passed: 4/8/2025</strong></p>
+        <p><strong class="glitch-text">Cybersecurity - Passed: 8/26/2024</strong></p>
     </div>
 
-    <div class="gif-container">
-        <div class="tenor-gif-embed" data-postid="12475232483217937905" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-            <a href="https://tenor.com/view/manhattan-cafe-uma-musume-uma-musume-pretty-derby-beginning-of-a-new-era-gif-12475232483217937905">Manhattan Cafe Uma Musume GIF</a>
-        </div>
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    <div class="box" id="projects">
+        <h3>Technical Projects</h3>
+        <p>pfSense Firewall Lab | Aruba VLAN Infrastructure</p>
+    </div>
+
+    <div style="margin: 40px auto; position: relative; z-index: 5;">
+        <img src="https://media.tenor.com/8gJt_zyXCTkAAAAC/manhattan-cafe-uma-musume.gif" alt="Cafe" style="width: 300px; border-radius: 12px; box-shadow: 0 0 20px #ffeb3b;">
     </div>
 
     <footer class="blood-footer">
-        <div class="splatter" style="left: 15%; top: 40px;"></div>
-        <div class="splatter" style="left: 45%; top: 55px; animation-delay: 0.4s;"></div>
-        <div class="splatter" style="left: 75%; top: 35px; animation-delay: 0.8s;"></div>
-        <h4 style="color: #d40000; margin: 0;">SYSTEM ERROR: BREACHED</h4>
+        <div class="splatter" style="left: 20%; animation-delay: 0s;"></div>
+        <div class="splatter" style="left: 50%; animation-delay: 0.5s;"></div>
+        <div class="splatter" style="left: 80%; animation-delay: 1s;"></div>
+        <h4 style="color: #d40000;">SYSTEM ERROR: BREACHED</h4>
     </footer>
 
     <script>
         const body = document.body;
         const sun = document.getElementById('setting-sun');
-        const moonContainer = document.getElementById('moon-container');
-        const moonBody = document.getElementById('moon-body');
         const shadow = document.getElementById('moon-shadow');
-        const starLayer = document.getElementById('starfield');
+        const starfield = document.getElementById('starfield');
 
+        // --- CREATE STARS ---
         function initStars() {
             for (let i = 0; i < 150; i++) {
-                const s = document.createElement('div');
-                s.className = 'star';
+                const star = document.createElement('div');
+                star.className = 'star';
                 const size = Math.random() * 3 + 'px';
-                s.style.width = size; s.style.height = size;
-                s.style.top = Math.random() * 100 + 'vh';
-                s.style.left = Math.random() * 100 + 'vw';
-                s.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-                starLayer.appendChild(s);
+                star.style.width = size;
+                star.style.height = size;
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+                starfield.appendChild(star);
             }
         }
         initStars();
 
-        function shootStar() {
-            const sunOpacity = parseFloat(window.getComputedStyle(sun).opacity);
-            if (sunOpacity < 0.3) {
-                const sStar = document.createElement('div');
-                sStar.className = 'shooting-star';
-                let x = Math.random() * window.innerWidth;
-                let y = Math.random() * (window.innerHeight / 2);
-                document.body.appendChild(sStar);
-                let steps = 0;
-                const interval = setInterval(() => {
-                    x -= 10; y += 8;
-                    sStar.style.left = x + 'px'; sStar.style.top = y + 'px';
-                    const trail = document.createElement('div');
-                    trail.className = 'glitch-trail';
-                    trail.innerText = Math.random() > 0.5 ? '1' : '0';
-                    trail.style.left = x + 'px'; trail.style.top = y + 'px';
-                    document.body.appendChild(trail);
-                    setTimeout(() => trail.remove(), 600);
-                    if (steps++ > 40) { clearInterval(interval); sStar.remove(); }
-                }, 20);
-            }
-            setTimeout(shootStar, Math.random() * 6000 + 2000);
-        }
-        shootStar();
-
+        // --- SCROLL LOGIC ---
         window.addEventListener('scroll', () => {
             const scrollPercent = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+            
+            // Sun & Moon Logic
             shadow.style.left = `${scrollPercent * 100}%`;
             sun.style.transform = `translateY(${scrollPercent * 500}px)`;
-            sun.style.opacity = Math.max(1 - (scrollPercent * 1.5), 0);
-            const moonDescent = scrollPercent * (window.innerHeight - 150);
-            moonContainer.style.transform = `translateY(${moonDescent}px)`;
-            if (scrollPercent > 0.7) {
-                moonBody.classList.add('blood');
-            } else {
-                moonBody.classList.remove('blood');
-            }
-            starLayer.style.opacity = scrollPercent > 0.2 ? (scrollPercent - 0.2) * 1.5 : 0;
+            sun.style.opacity = 1 - (scrollPercent * 1.5);
+
+            // Stars Logic: Only appear as sun sets
+            starfield.style.opacity = scrollPercent > 0.3 ? (scrollPercent - 0.3) * 1.5 : 0;
         });
 
+        // --- SNOW & PULSE ---
         function createSnowflake() {
             const snowflake = document.createElement("div");
             snowflake.classList.add("snowflake");
             snowflake.innerText = "❄";
-            const duration = Math.random() * 3 + 4; 
+            const duration = Math.random() * 3 + 4;
             snowflake.style.left = Math.random() * 100 + "vw";
             snowflake.style.animationDuration = duration + "s";
             body.appendChild(snowflake);
+            
             setTimeout(() => {
                 body.classList.add('pulse-red');
                 setTimeout(() => body.classList.remove('pulse-red'), 150);
