@@ -40,6 +40,7 @@
             margin-bottom: 20px;
             text-shadow: 4px 4px #d40000;
             letter-spacing: 2px;
+            z-index: 20002;
         }
 
         .insert-coin {
@@ -51,22 +52,42 @@
             border: 4px double #ffeb3b;
             animation: blink 0.6s infinite;
             margin-top: 20px;
+            z-index: 20002;
+            background: black;
         }
 
+        /* --- DIO WALKING ANIMATION --- */
         #dio-container {
-            width: 200px; 
-            margin: 10px auto; 
+            width: 180px; 
+            margin: 20px auto; 
             border: 2px solid #ffeb3b; 
             border-radius: 8px; 
             overflow: hidden;
-            transition: transform 0.1s;
+            background: #000;
+            /* Walking across the screen */
+            animation: dioWalk 10s linear infinite;
+            position: relative;
         }
 
-        .insert-coin:hover ~ #dio-container,
-        #game-intro:has(.insert-coin:hover) #dio-container {
-            animation: dioShake 0.15s infinite;
+        @keyframes dioWalk {
+            0%   { transform: translateX(-250%) scaleX(1) translateY(0); }
+            10%  { transform: translateX(-200%) scaleX(1) translateY(-10px); } /* Step up */
+            20%  { transform: translateX(-150%) scaleX(1) translateY(0); }     /* Step down */
+            30%  { transform: translateX(-100%) scaleX(1) translateY(-10px); }
+            40%  { transform: translateX(-50%)  scaleX(1) translateY(0); }
+            49%  { transform: translateX(0%)    scaleX(1); }
+            50%  { transform: translateX(0%)    scaleX(-1); } /* Flip at center/end */
+            60%  { transform: translateX(-50%)  scaleX(-1) translateY(-10px); }
+            70%  { transform: translateX(-100%) scaleX(-1) translateY(0); }
+            80%  { transform: translateX(-150%) scaleX(-1) translateY(-10px); }
+            90%  { transform: translateX(-200%) scaleX(-1) translateY(0); }
+            100% { transform: translateX(-250%) scaleX(1) translateY(0); }
+        }
+
+        .insert-coin:hover ~ #dio-container {
+            animation: dioShake 0.15s infinite, dioWalk 10s linear infinite;
             border-color: #ff0000;
-            box-shadow: 0 0 20px #ff0000;
+            box-shadow: 0 0 25px #ff0000;
         }
 
         @keyframes dioShake {
@@ -299,19 +320,9 @@
             transition: opacity 0.5s ease;
         }
 
-        /* JoJo GIF specific styling to remove background */
         .jojo-frame {
-            box-shadow: none; /* remove box-shadow for transparent effect */
+            box-shadow: none;
             background-color: transparent;
-        }
-
-        /* Target the actual img/video within the Tenor embed to remove background */
-        .jojo-frame .tenor-gif-embed {
-            background-color: transparent !important;
-        }
-
-        .jojo-frame .tenor-gif-embed::after {
-            background-color: transparent !important;
         }
 
         .blood-footer {
@@ -405,7 +416,7 @@
     <div id="game-intro">
         <div class="intro-text">PLAYER 1: ZAYN</div>
         <div id="dio-container">
-            <div class="tenor-gif-embed" data-postid="16943836" data-share-method="host" data-aspect-ratio="0.74375" data-width="100%"><a href="https://tenor.com/view/jo-jos-bizarre-adventure-dio-mask-pointing-gif-16943836">Jo Jos Bizarre Adventure Dio Sticker</a>from <a href="https://tenor.com/search/jo+jos+bizarre+adventure-stickers">Jo Jos Bizarre Adventure Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+            <div class="tenor-gif-embed" data-postid="16943836" data-share-method="host" data-aspect-ratio="0.74375" data-width="100%"><a href="https://tenor.com/view/jo-jos-bizarre-adventure-dio-mask-pointing-gif-16943836">Jo Jos Bizarre Adventure Dio Sticker</a></div>
         </div>
         <div class="insert-coin" onclick="startGame()">INSERT COIN</div>
     </div>
@@ -418,7 +429,6 @@
         <div class="tenor-gif-embed" data-postid="5271339300012166028" data-share-method="host" data-aspect-ratio="1.76596" data-width="100%">
             <a href="https://tenor.com/view/agnes-tachyon-tachyon-agnestachyon-anime-running-gif-5271339300012166028">Agnes Tachyon</a>
         </div> 
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     </div>
 
     <div class="sun" id="setting-sun"></div>
@@ -485,11 +495,10 @@
 
         <div class="gif-frame jojo-frame gif-target">
             <div class="tenor-gif-embed" data-postid="20443049" data-share-method="host" data-aspect-ratio="1.40969" data-width="100%">
-                <a href="https://tenor.com/view/jojoban-jojoba-jojos-bizarre-adventure-heritage-for-the-future-jojo-hftf-jjba-hftf-gif-20443049">Jojoban Jojos Bizarre Adventure Heritage For The Future GIF</a>
+                <a href="https://tenor.com/view/jojoban-jojoba-jojos-bizarre-adventure-heritage-for-the-future-jojo-hftf-jjba-hftf-gif-20443049">Jojoban</a>
             </div>
         </div>
     </div>
-    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
     <footer class="blood-footer">
         <div class="splatter drop1"></div>
@@ -510,9 +519,10 @@
         </div>
 
         <a href="https://www.credly.com/users/zayn-cage" target="_blank" class="credly-profile-link">VIEW FULL CREDLY PROFILE</a>
-        
         <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
     </footer>
+
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
     <script>
         const body = document.body;
