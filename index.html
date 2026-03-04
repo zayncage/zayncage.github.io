@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -294,15 +293,17 @@
         .blood-footer {
             position: relative;
             width: 100%;
-            height: 160px;
+            height: 320px; /* Adjusted for multiple badges */
             background: #ffffff;
             border-top: 3px solid #ff0000;
             overflow: hidden;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap; /* Allows badges to stack on smaller screens */
             z-index: 10;
             margin-top: 50px;
+            gap: 15px;
         }
 
         .splatter {
@@ -312,6 +313,7 @@
             background: #d40000;
             border-radius: 50%;
             animation: splatterFly 2.2s infinite ease-out;
+            z-index: 1;
         }
 
         .drop1 { left: 15%; top: 40px; animation-delay: 0s; }
@@ -433,6 +435,12 @@
         <div class="splatter drop1"></div>
         <div class="splatter drop2"></div>
         <div class="splatter drop3"></div>
+        
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="e7916a87-81a7-478f-b926-82b597fb33af" data-share-badge-host="https://www.credly.com"></div>
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5c8bfe2a-1851-42b9-92c9-ffab6817378e" data-share-badge-host="https://www.credly.com"></div>
+        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6633cb43-6fbc-4d05-982a-adbf05ee5dce" data-share-badge-host="https://www.credly.com"></div>
+        
+        <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
     </footer>
 
     <script>
