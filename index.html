@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zayn K. Cage - IT & Cybersecurity Professional</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-yellow: #ffeb3b;
+            --arcade-red: #d40000;
+            --bg-dark: #090A0F;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, var(--bg-dark) 100%);
             background-attachment: fixed;
-            color: #ffeb3b;
+            color: var(--primary-yellow);
             text-align: center;
             padding: 0;
             margin: 0;
             overflow-x: hidden;
-            transition: background 0.2s ease;
             scroll-behavior: smooth;
         }
 
-        /* --- OLD SCHOOL FIGHTING GAME INTRO --- */
+        /* --- ARCADE INTRO --- */
         #game-intro {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -33,22 +40,18 @@
         .intro-text {
             font-family: 'Press Start 2P', cursive;
             color: #fff;
-            font-size: 24px;
+            font-size: clamp(14px, 4vw, 24px);
             margin-bottom: 20px;
-            text-shadow: 4px 4px #d40000;
+            text-shadow: 4px 4px var(--arcade-red);
             letter-spacing: 2px;
         }
 
-        /* --- DIO WALKING ANIMATION --- */
         #dio-container {
             width: 140px; 
             margin-bottom: 10px; 
-            border: 2px solid #ffeb3b; 
+            border: 2px solid var(--primary-yellow); 
             border-radius: 8px; 
             overflow: hidden;
-            transition: opacity 0.3s ease;
-            position: relative;
-            /* Animation: Moves from left off-screen to center */
             animation: dioWalk 3s cubic-bezier(0.1, 0.7, 0.1, 1) forwards;
         }
 
@@ -57,70 +60,85 @@
             100% { transform: translateX(0); }
         }
 
-        /* --- CREDLY BADGE SLOT MACHINE --- */
+        /* --- SLOT MACHINE --- */
         #slot-machine {
-            width: 340px;
-            height: 130px;
-            border: 6px solid #ffeb3b;
+            width: 320px;
+            height: 120px;
+            border: 6px solid var(--primary-yellow);
             background: #111;
             border-radius: 12px;
             display: flex;
             justify-content: space-around;
             align-items: center;
             padding: 10px;
-            box-shadow: 0 0 25px #ffeb3b, inset 0 0 15px #000;
+            box-shadow: 0 0 25px var(--primary-yellow), inset 0 0 15px #000;
             margin: 20px 0;
             overflow: hidden;
-            position: relative;
         }
 
         .reel {
-            width: 90px;
-            height: 90px;
+            width: 80px;
+            height: 80px;
             background: #fff;
             border-radius: 8px;
             overflow: hidden;
             position: relative;
-            border: 2px solid #444;
         }
 
         .reel-inner {
             display: flex;
             flex-direction: column;
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            animation: spinReel 1.5s linear infinite;
+            top: 0; left: 0; width: 100%;
+            animation: spinReel 1.2s linear infinite;
         }
 
         .reel-inner img {
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             margin: 5px auto;
             display: block;
         }
 
         @keyframes spinReel {
             0% { transform: translateY(0); }
-            100% { transform: translateY(-270px); }
+            100% { transform: translateY(-240px); } /* Based on 3 unique images */
+        }
+
+        .stop-spin { 
+            animation: none !important; 
+            transform: translateY(-160px) !important; /* Locks on Security+ */
+            transition: transform 0.5s ease-out;
         }
 
         .insert-coin {
             font-family: 'Press Start 2P', cursive;
-            color: #ffeb3b;
+            color: var(--primary-yellow);
             font-size: 18px;
             cursor: pointer;
             padding: 15px;
-            border: 4px double #ffeb3b;
+            border: 4px double var(--primary-yellow);
             animation: blink 0.6s infinite;
-            margin-top: 20px;
             background: transparent;
+            margin-top: 20px;
         }
 
-        /* --- GLITCH EFFECT --- */
+        /* --- OVERLAYS --- */
+        #fight-announcement {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-family: 'Press Start 2P', cursive;
+            color: #ff0000;
+            font-size: clamp(30px, 8vw, 60px);
+            z-index: 20001;
+            text-shadow: 5px 5px #fff;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
         .glitch-out {
-            animation: glitch 0.2s infinite !important; /* Override walk animation */
+            animation: glitch 0.2s infinite !important; 
             filter: hue-rotate(90deg) contrast(150%);
         }
 
@@ -128,54 +146,46 @@
             0% { transform: translate(0); }
             20% { transform: translate(-5px, 5px); clip-path: inset(10% 0 30% 0); }
             40% { transform: translate(5px, -5px); clip-path: inset(40% 0 10% 0); }
-            60% { transform: translate(-10px, 2px); opacity: 0.8; }
-            80% { transform: translate(10px, -2px); clip-path: inset(20% 0 50% 0); }
             100% { transform: translate(0); }
-        }
-
-        #fight-announcement {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0);
-            font-family: 'Press Start 2P', cursive;
-            color: #ff0000;
-            font-size: 60px;
-            z-index: 20001;
-            text-shadow: 5px 5px #fff;
-            pointer-events: none;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
 
         .intro-hide { opacity: 0; visibility: hidden; pointer-events: none; }
 
+        /* --- MAIN UI --- */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
             padding: 15px 0;
-            border-bottom: 2px solid #ffeb3b;
+            border-bottom: 2px solid var(--primary-yellow);
             position: sticky; top: 0; z-index: 10000;
         }
 
-        nav a { color: #ffeb3b; margin: 0 20px; text-decoration: none; font-size: 18px; }
-
+        nav a { color: var(--primary-yellow); margin: 0 15px; text-decoration: none; font-size: 14px; text-transform: uppercase; }
+        
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
-            padding: 25px; margin: 35px auto; width: 65%;
-            border-radius: 12px; color: #ffeb3b;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 25px; margin: 35px auto; width: 85%; max-width: 800px;
+            border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: left;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 10px;
         }
 
         .blood-footer {
-            background: #ffffff; border-top: 3px solid #ff0000;
+            background: #fff; border-top: 4px solid var(--arcade-red);
             padding: 40px 0; margin-top: 50px;
         }
 
-        .badge-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-        
-        .stop-spin { animation: none !important; transform: translateY(-180px) !important; }
+        .badge-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
     </style>
 </head>
 <body>
@@ -189,22 +199,19 @@
 
         <div id="slot-machine">
             <div class="reel"><div class="reel-inner" id="reel1">
-                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
+                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png" alt="A+">
+                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png" alt="Net+">
+                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png" alt="Sec+">
             </div></div>
-            <div class="reel"><div class="reel-inner" id="reel2" style="animation-duration: 1.2s;">
-                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
+            <div class="reel"><div class="reel-inner" id="reel2" style="animation-duration: 0.9s;">
+                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png" alt="A+">
+                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png" alt="Net+">
+                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png" alt="Sec+">
             </div></div>
-            <div class="reel"><div class="reel-inner" id="reel3" style="animation-duration: 0.8s;">
-                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
-                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png">
+            <div class="reel"><div class="reel-inner" id="reel3" style="animation-duration: 0.6s;">
+                <img src="https://images.credly.com/size/220x220/images/2db85897-4522-4014-9972-763467e9f395/CompTIA_A_2B_ce.png" alt="A+">
+                <img src="https://images.credly.com/size/220x220/images/73f084be-9038-4034-8c81-8f553046d3e3/CompTIA_Network_2B_ce.png" alt="Net+">
+                <img src="https://images.credly.com/size/220x220/images/64f0f803-0efb-410a-9973-51820c242392/CompTIA_Security_2B_ce.png" alt="Sec+">
             </div></div>
         </div>
 
@@ -215,19 +222,35 @@
 
     <nav>
         <a href="#">Home</a>
-        <a href="#certs">Certifications</a>
+        <a href="#certs">Certs</a>
         <a href="#passed-exams">Exams</a>
-        <a href="#contact">Contact</a>
+        <a href="#skills">Skills</a>
     </nav>
 
-    <div class="header">
-        <h1>Zayn K. Cage</h1>
-        <h2>Network & Cybersecurity Professional</h2>
-    </div>
+    <header style="padding-top: 50px;">
+        <h1 style="font-family: 'Press Start 2P'; font-size: clamp(20px, 6vw, 40px);">Zayn K. Cage</h1>
+        <p style="letter-spacing: 3px;">NETWORK & CYBERSECURITY PROFESSIONAL</p>
+    </header>
 
     <div class="box" id="certs">
-        <h3>Primary Certifications</h3>
-        <p>CompTIA A+ | Network+ | Security+</p>
+        <h3 style="color: #fff; border-bottom: 2px solid var(--arcade-red); padding-bottom: 10px;">CORE CERTIFICATIONS</h3>
+        <p>CompTIA A+ | CompTIA Network+ | CompTIA Security+</p>
+    </div>
+
+    <div class="box" id="skills">
+        <h3 style="color: #fff; margin-bottom: 25px;">CHARACTER STATS</h3>
+        <div class="stats-grid">
+            <div>STR: NETWORK SECURITY [||||||||--]</div>
+            <div>AGI: INCIDENT RESPONSE [|||||||---]</div>
+            <div>INT: THREAT ANALYSIS [|||||||||-]</div>
+            <div>DEF: FIREWALL MGMT [||||||||--]</div>
+        </div>
+    </div>
+
+    <div class="box" id="passed-exams">
+        <h3>EXAM HISTORY</h3>
+        <p>Network Security - <span style="color: #4caf50;">PASSED</span> 11/04/2025</p>
+        <p>Cybersecurity - <span style="color: #4caf50;">PASSED</span> 08/26/2024</p>
     </div>
 
     <footer class="blood-footer">
@@ -236,35 +259,36 @@
             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5c8bfe2a-1851-42b9-92c9-ffab6817378e" data-share-badge-host="https://www.credly.com"></div>
             <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6633cb43-6fbc-4d05-982a-adbf05ee5dce" data-share-badge-host="https://www.credly.com"></div>
         </div>
-        <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
     </footer>
+
+    <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
     <script>
         function startGame() {
             const dio = document.getElementById('dio-container');
             const intro = document.getElementById('game-intro');
             
-            // Stop walk animation and start glitch
-            dio.style.animation = 'none'; 
-            void dio.offsetWidth; // Trigger reflow to apply glitch immediately
+            // 1. Glitch and Stop Reels
             dio.classList.add('glitch-out');
-            
             document.getElementById('reel1').classList.add('stop-spin');
             document.getElementById('reel2').classList.add('stop-spin');
             document.getElementById('reel3').classList.add('stop-spin');
 
-            setTimeout(() => {
-                dio.style.opacity = '0';
-            }, 700);
+            // 2. Vanish Effect
+            setTimeout(() => { dio.style.opacity = '0'; }, 600);
 
+            // 3. Final Transition
             setTimeout(() => {
                 intro.classList.add('intro-hide');
                 const fightText = document.getElementById('fight-announcement');
+                
                 setTimeout(() => {
                     fightText.style.transform = "translate(-50%, -50%) scale(1)";
-                    setTimeout(() => { fightText.style.transform = "translate(-50%, -50%) scale(0)"; }, 1200);
-                }, 400);
+                    setTimeout(() => { 
+                        fightText.style.transform = "translate(-50%, -50%) scale(0)"; 
+                    }, 1200);
+                }, 300);
             }, 1000);
         }
     </script>
