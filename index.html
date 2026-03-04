@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +6,6 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            /* Winter Night Gradient - Fixed background */
             background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
             background-attachment: fixed;
             color: #ffeb3b;
@@ -55,7 +53,6 @@
             margin-top: 20px;
         }
 
-        /* DIO CONTAINER & SHAKE EFFECT */
         #dio-container {
             width: 200px; 
             margin: 10px auto; 
@@ -65,7 +62,6 @@
             transition: transform 0.1s;
         }
 
-        /* Trigger shake when the button is hovered */
         .insert-coin:hover ~ #dio-container,
         #game-intro:has(.insert-coin:hover) #dio-container {
             animation: dioShake 0.15s infinite;
@@ -87,7 +83,6 @@
             100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
 
-        /* --- FIGHT ANNOUNCEMENT --- */
         #fight-announcement {
             position: fixed;
             top: 50%;
@@ -114,7 +109,6 @@
             pointer-events: none;
         }
 
-        /* --- BACKGROUND & SNOW --- */
         .bg-gif-container {
             position: fixed;
             top: 0;
@@ -145,7 +139,6 @@
             to { transform: translateY(110vh); }
         }
 
-        /* --- SETTING SUN --- */
         .sun {
             position: fixed;
             top: 20px;
@@ -166,7 +159,6 @@
             50% { transform: scale(1.05); box-shadow: 0 0 50px #fff176, 0 0 100px #fff176; }
         }
 
-        /* --- MOON --- */
         .moon-container {
             position: fixed;
             top: 20px;
@@ -216,7 +208,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Navigation Bar */
         nav {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
@@ -241,7 +232,6 @@
             text-shadow: 0 0 10px #fff176;
         }
 
-        /* Liquid Glass Header */
         .header {
             padding: 60px 20px;
             background: rgba(255, 255, 255, 0.05);
@@ -260,7 +250,6 @@
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* Boxes */
         .box {
             background: rgba(255, 255, 255, 0.05); 
             backdrop-filter: blur(15px);
@@ -290,21 +279,70 @@
             60% { transform: translate(2px, -2px); }
         }
 
-        /* Blood Splatter Footer */
+        /* GIF Section Styles */
+        .gif-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 40px auto;
+            max-width: 800px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .gif-frame {
+            width: 300px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 20px #ffeb3b;
+            transition: opacity 0.5s ease;
+        }
+
         .blood-footer {
             position: relative;
             width: 100%;
-            height: 320px; /* Adjusted for multiple badges */
+            height: auto;
+            min-height: 160px;
+            padding: 40px 0;
             background: #ffffff;
             border-top: 3px solid #ff0000;
             overflow: hidden;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-wrap: wrap; /* Allows badges to stack on smaller screens */
             z-index: 10;
             margin-top: 50px;
-            gap: 15px;
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 5;
+        }
+
+        .credly-profile-link {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 12px;
+            color: #d40000;
+            text-decoration: none;
+            padding: 10px;
+            border: 2px solid #d40000;
+            transition: 0.3s;
+            position: relative;
+            z-index: 5;
+            background: white;
+        }
+
+        .credly-profile-link:hover {
+            background: #d40000;
+            color: white;
+            box-shadow: 0 0 15px #ff0000;
         }
 
         .splatter {
@@ -351,11 +389,9 @@
 
     <div id="game-intro">
         <div class="intro-text">PLAYER 1: ZAYN</div>
-        
         <div id="dio-container">
             <div class="tenor-gif-embed" data-postid="16943836" data-share-method="host" data-aspect-ratio="0.74375" data-width="100%"><a href="https://tenor.com/view/jo-jos-bizarre-adventure-dio-mask-pointing-gif-16943836">Jo Jos Bizarre Adventure Dio Sticker</a>from <a href="https://tenor.com/search/jo+jos+bizarre+adventure-stickers">Jo Jos Bizarre Adventure Stickers</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
         </div>
-
         <div class="insert-coin" onclick="startGame()">INSERT COIN</div>
     </div>
 
@@ -425,21 +461,40 @@
         <p>Email: <span style="color:#fff176;">zayncage@gmail.com</span></p>
     </div>
 
-    <div class="gif-target" style="margin: 40px auto; width: 300px; position: relative; z-index: 5; border-radius: 12px; overflow: hidden; box-shadow: 0 0 20px #ffeb3b; transition: opacity 0.5s ease;">
-        <div class="tenor-gif-embed" data-postid="12475232483217937905" data-share-method="host" data-aspect-ratio="1" data-width="100%">
-            <a href="https://tenor.com/view/manhattan-cafe-uma-musume-uma-musume-pretty-derby-beginning-of-a-new-era-gif-12475232483217937905">Manhattan Cafe</a>
-        </div> 
-        <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+    <div class="gif-row">
+        <div class="gif-frame gif-target">
+            <div class="tenor-gif-embed" data-postid="12475232483217937905" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+                <a href="https://tenor.com/view/manhattan-cafe-uma-musume-uma-musume-pretty-derby-beginning-of-a-new-era-gif-12475232483217937905">Manhattan Cafe</a>
+            </div> 
+        </div>
+
+        <div class="gif-frame gif-target">
+            <div class="tenor-gif-embed" data-postid="20443049" data-share-method="host" data-aspect-ratio="1.40969" data-width="100%">
+                <a href="https://tenor.com/view/jojoban-jojoba-jojos-bizarre-adventure-heritage-for-the-future-jojo-hftf-jjba-hftf-gif-20443049">Jojoban Jojos Bizarre Adventure Heritage For The Future GIF</a>
+            </div>
+        </div>
     </div>
+    <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
 
     <footer class="blood-footer">
         <div class="splatter drop1"></div>
         <div class="splatter drop2"></div>
         <div class="splatter drop3"></div>
         
-        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="e7916a87-81a7-478f-b926-82b597fb33af" data-share-badge-host="https://www.credly.com"></div>
-        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5c8bfe2a-1851-42b9-92c9-ffab6817378e" data-share-badge-host="https://www.credly.com"></div>
-        <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6633cb43-6fbc-4d05-982a-adbf05ee5dce" data-share-badge-host="https://www.credly.com"></div>
+        <div class="badge-container">
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="e7916a87-81a7-478f-b926-82b597fb33af" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="5c8bfe2a-1851-42b9-92c9-ffab6817378e" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="6633cb43-6fbc-4d05-982a-adbf05ee5dce" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f60537fa-180a-42b5-ab5b-da54a9524845" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f6123786-293c-4f58-8ad0-ea049dea11ad" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="75272c6b-bc61-4726-a3c9-c29083adb5f9" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="f5c69318-3b0a-40f9-bc65-a1fcf19c0a68" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="3a777b7b-301e-40a8-9bd4-4c6fa02aa656" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="1b7eb00f-bd55-4cd6-aa8f-72ac8b0b7e6b" data-share-badge-host="https://www.credly.com"></div>
+            <div data-iframe-width="150" data-iframe-height="270" data-share-badge-id="ad039dcb-c91c-4515-b26f-5ca6e1a3bb28" data-share-badge-host="https://www.credly.com"></div>
+        </div>
+
+        <a href="https://www.credly.com/users/zayn-cage" target="_blank" class="credly-profile-link">VIEW FULL CREDLY PROFILE</a>
         
         <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
     </footer>
@@ -510,4 +565,3 @@
     </script>
 </body>
 </html>
-
