@@ -56,36 +56,30 @@
             background: black;
         }
 
-        /* --- DIO WALKING ANIMATION --- */
+        /* --- DIO WALKING TO CENTER ANIMATION --- */
         #dio-container {
             width: 180px; 
-            margin: 20px auto; 
+            margin: 0 auto; 
             border: 2px solid #ffeb3b; 
             border-radius: 8px; 
             overflow: hidden;
             background: #000;
-            /* Walking across the screen */
-            animation: dioWalk 10s linear infinite;
+            animation: dioWalkToStop 4s ease-out forwards;
             position: relative;
         }
 
-        @keyframes dioWalk {
-            0%   { transform: translateX(-250%) scaleX(1) translateY(0); }
-            10%  { transform: translateX(-200%) scaleX(1) translateY(-10px); } /* Step up */
-            20%  { transform: translateX(-150%) scaleX(1) translateY(0); }     /* Step down */
-            30%  { transform: translateX(-100%) scaleX(1) translateY(-10px); }
-            40%  { transform: translateX(-50%)  scaleX(1) translateY(0); }
-            49%  { transform: translateX(0%)    scaleX(1); }
-            50%  { transform: translateX(0%)    scaleX(-1); } /* Flip at center/end */
-            60%  { transform: translateX(-50%)  scaleX(-1) translateY(-10px); }
-            70%  { transform: translateX(-100%) scaleX(-1) translateY(0); }
-            80%  { transform: translateX(-150%) scaleX(-1) translateY(-10px); }
-            90%  { transform: translateX(-200%) scaleX(-1) translateY(0); }
-            100% { transform: translateX(-250%) scaleX(1) translateY(0); }
+        @keyframes dioWalkToStop {
+            0%   { transform: translateX(-300%) translateY(0); }
+            15%  { transform: translateX(-250%) translateY(-15px); }
+            30%  { transform: translateX(-200%) translateY(0); }
+            45%  { transform: translateX(-150%) translateY(-15px); }
+            60%  { transform: translateX(-100%) translateY(0); }
+            75%  { transform: translateX(-50%)  translateY(-15px); }
+            100% { transform: translateX(0%)    translateY(0); }
         }
 
         .insert-coin:hover ~ #dio-container {
-            animation: dioShake 0.15s infinite, dioWalk 10s linear infinite;
+            animation: dioShake 0.15s infinite;
             border-color: #ff0000;
             box-shadow: 0 0 25px #ff0000;
         }
@@ -300,7 +294,6 @@
             60% { transform: translate(2px, -2px); }
         }
 
-        /* GIF Section Styles */
         .gif-row {
             display: flex;
             justify-content: center;
@@ -580,9 +573,13 @@
             snowflake.style.animationDuration = duration + "s";
             snowflake.style.fontSize = Math.random() * 10 + 10 + "px";
             body.appendChild(snowflake);
+            
             setTimeout(() => {
-                body.classList.add('pulse-red');
-                setTimeout(() => body.classList.remove('pulse-red'), 150);
+                // Only flash red if NOT paused
+                if (!isPaused) {
+                    body.classList.add('pulse-red');
+                    setTimeout(() => body.classList.remove('pulse-red'), 150);
+                }
                 snowflake.remove();
             }, duration * 1000);
         }
